@@ -74,6 +74,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2017.8.1 ES6中的箭头函数的深入理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2017-07-31T16:00:00.000Z" itemprop="datePublished">2017-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">ES6中箭头函数的理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在You Tube上看到一个关于ECMAScript 6详解的视频<a href="https://www.youtube.com/watch?v=Bea2QW_kXUY" target="_blank" rel="noopener">ES6多了什么？</a>，遂对以往箭头函数学习中存在的漏洞进行补缺，特别是箭头函数中的this指向：永远指向箭头函数生成时的包裹该方法的对象 ， 并且this指向并不会存在嵌套函数指向window的问题.</p>
+<hr>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开胃小Demo</span></span><br><span class="line"><span class="keyword">var</span> data = <span class="string">'html基础,css基础,jquery,html5,css3,javascript高级'</span>.split(<span class="string">","</span>);</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).innerHTML = <span class="string">'&lt;ul&gt;'</span>+ data.map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">'&lt;li '</span>+( i % <span class="number">2</span> == <span class="number">1</span> ?  <span class="string">"class='even'"</span>: <span class="string">""</span> )+ <span class="string">'&gt;'</span> + v + <span class="string">'&lt;/li&gt;'</span> </span><br><span class="line">        &#125;).join(<span class="string">""</span>) + <span class="string">'&lt;/ul&gt;'</span>;</span><br><span class="line">    &#125;)();</span><br><span class="line">    <span class="comment">//使用箭头函数进行改写  -&gt;箭头函数没有作用域及原型对象，不能使用new关键字(没有constructor和prototype属性), 同时箭头函数中的this始终为定义函数时的this,无法被改变</span></span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">//当有多个参数时， 参数需要用括号括起来， 当代码块中有多句执行代码时需要用大括号括起来.</span></span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).innerHTML = <span class="string">"&lt;ul&gt;"</span> + data.map( <span class="function">(<span class="params">v,i</span>) =&gt;</span> <span class="string">'&lt;li '</span>+ ( i % <span class="number">2</span> === <span class="number">1</span> ? <span class="string">"class='even'"</span> :<span class="string">""</span> ) +<span class="string">'&gt;'</span> + v + <span class="string">'&lt;/li&gt;'</span> ).join(<span class="string">""</span>) + <span class="string">"&lt;/ul&gt;"</span> ;</span><br><span class="line">    &#125;)();</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//以下是对箭头函数的深入 </span></span><br><span class="line">    <span class="comment">//当参数超过2个时可以这样</span></span><br><span class="line">    <span class="keyword">var</span> add = <span class="function">(<span class="params">x , y</span>) =&gt;</span> x+y ; </span><br><span class="line">    <span class="comment">//es5的数组reduce方法: 第一个参数为指定回调，第二个参数为累积运算的初始值.</span></span><br><span class="line">    <span class="keyword">var</span> sum = <span class="function">(<span class="params">...args</span>)=&gt;</span><span class="built_in">Array</span>.prototype.slice.call(args,<span class="number">0</span>).reduce(add , <span class="number">0</span>);   <span class="comment">//slice会返回一个新数组 此时的args等价于arguments.</span></span><br><span class="line">    <span class="keyword">var</span> subIndexOne = <span class="function">(<span class="params">a,...args</span>)=&gt;</span><span class="built_in">Array</span>.prototype.slice.call(args,<span class="number">0</span>).reduce(add , <span class="number">0</span>); <span class="comment">//此时的args等价于arguments减去索引为0的实参.</span></span><br><span class="line">    <span class="comment">// function sum (a)&#123;</span></span><br><span class="line">    <span class="comment">//     var args = arguments ;</span></span><br><span class="line">    <span class="comment">//     return Array.prototype.slice.call(args, 0 ).reduce(add , 0);</span></span><br><span class="line">    <span class="comment">// &#125;;</span></span><br><span class="line">    <span class="keyword">var</span> num1 = sum( <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>); <span class="comment">// 36</span></span><br><span class="line">    <span class="keyword">var</span> num2 = subIndexOne( <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span> ) ; <span class="comment">// 35</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//关于ECMAScript 6中箭头函数的this指向问题:this永远指向其生成环境时的上下文环境.（也可以理解为this永远指向包裹当前方法的那个对象）</span></span><br><span class="line">    <span class="keyword">var</span> arr = [</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Sam'</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Roll'</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Mary'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Amap</span>(<span class="params"> someArr </span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> someArr.map( <span class="function"><span class="params">()</span>=&gt;</span><span class="keyword">this</span>.name );</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> x = &#123;</span><br><span class="line">        name:<span class="string">'super'</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    x.Xmap = Amap ;  <span class="comment">//此时箭头函数中的this指向x对象 ， 因为Xmap方法是在x对象下生成的</span></span><br><span class="line">    Amap( arr );  <span class="comment">// ['' , '' , '' ]; //此时箭头函数的this指向window , 因为Amap属于window对象下的一个方法</span></span><br><span class="line">    x.Xmap( arr ); <span class="comment">// ['super' , 'super' , 'super' ]</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" data-id="ck8vrubyc0008gx2u7dhufsqt" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-2017.7.23 深入理解JavaScript继承模式(高程读书笔记)" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/23/2017.7.23%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JavaScript%E7%BB%A7%E6%89%BF%E6%A8%A1%E5%BC%8F(%E9%AB%98%E7%A8%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0)/" class="article-date">
@@ -263,15 +307,15 @@
           </li>
         
           <li>
+            <a href="/2019/10/15/2019.10.15%20%E5%A0%86%E6%8E%92%E5%BA%8F/">优先队列及堆排序</a>
+          </li>
+        
+          <li>
             <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>
           </li>
         
           <li>
             <a href="/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">openGL中的3d相关知识</a>
           </li>
         
       </ul>

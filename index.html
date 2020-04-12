@@ -216,6 +216,104 @@
 
 
   
+    <article id="post-2019.10.15 堆排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/15/2019.10.15%20%E5%A0%86%E6%8E%92%E5%BA%8F/" class="article-date">
+  <time datetime="2019-10-14T16:00:00.000Z" itemprop="datePublished">2019-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/15/2019.10.15%20%E5%A0%86%E6%8E%92%E5%BA%8F/">优先队列及堆排序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>优先队列作为支持删除最大元素和插入元素堆数据结构，可以被用作堆排序的一种数据结构。同时二叉堆由于在删除最大或最小元素有着较低的时间复杂度，常用于图的优化中。</p>
+<p>堆排序涉及到的知识点包括：</p>
+<ul>
+<li><strong>优先队列</strong></li>
+<li><strong>二叉堆</strong></li>
+<li><strong>堆排序</strong></li>
+</ul>
+<h2 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h2><blockquote>
+<p>一个合适的数据结构应该支持两种操作：<strong>删除</strong>最大元素和插入元素。这种数据类型叫做优先队列。</p>
+</blockquote>
+<h3 id="优先队列的初级实现"><a href="#优先队列的初级实现" class="headerlink" title="优先队列的初级实现"></a>优先队列的初级实现</h3><ul>
+<li><p>数组实现(无序) 懒处理<br><br>  可以使用下压栈实现无序优先队列。insert方法的代码和栈的push方法完全一样。要实现删除最大(小)元素，可以添加一段类似选择排序的内循环代码，将最大元素和边界元素交换然后删除它，和我们对栈的pop方法的实现一样。</p>
+</li>
+<li><p>数组实现(有序) 积极处理<br><br>  另一种方法就是在insert方法中添加代码，将所有较大的元素向右边移动一格以使数组保持有序(和插入排序一样)。最大的元素总会在数组的一边。优先队列的删除最大元素就和栈的pop操作一样了。</p>
+</li>
+<li><p>链表表示法<br><br>  可以用基于链表的下压栈作为基础。</p>
+</li>
+</ul>
+<h2 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h2><blockquote>
+<p>在二叉堆数组中，每个元素都要保证大于等于另两个特定位置的元素。</p>
+</blockquote>
+<ul>
+<li><p>堆有序<br><br>  当一颗二叉树的每个节点都大于等于它的两个子节点时，它被称为堆有序。</p>
+</li>
+<li><p>二叉堆表示法<br><br>  书中采用的二叉堆表示会将队列首位(索引为0)的元素留空，以便更方便的在数组中表示二叉堆</p>
+</li>
+</ul>
+<blockquote>
+<p>我们可以通过计算数组的索引使游标在树中上下移动： 从a[k]向上一层就令k = k / 2，向下一层就令k = 2k 或 k = 2k + 1。</p>
+</blockquote>
+<h3 id="维持堆有序堆两个操作"><a href="#维持堆有序堆两个操作" class="headerlink" title="维持堆有序堆两个操作"></a>维持堆有序堆两个操作</h3><ul>
+<li><p>由下至上的堆有序化(上浮)<br>  当堆尾插入一个新元素时，使用上浮可以将该元素移动至合适的位置。</p>
+</li>
+<li><p>由上至下的堆有序化(下沉)<br>  当堆首的元素被pop后，使用堆尾的元素替代它时，需要将此时的元素下沉至合适的位置。</p>
+</li>
+</ul>
+<h3 id="二叉堆的操作"><a href="#二叉堆的操作" class="headerlink" title="二叉堆的操作"></a>二叉堆的操作</h3><ul>
+<li><p>插入元素<br><br>  将新元素加入到数组末尾，增加堆的大小并将这个新元素上浮到合适的位置。</p>
+</li>
+<li><p>删除最大(小)元素<br><br>  从数组顶端删除最大元素并将数组的最后一个元素放到顶段，减小堆的大小并将这个元素下沉到合适的位置。</p>
+</li>
+</ul>
+<p>二叉堆对优先队列接口的实现保证了插入元素和删除最大(小)元素这两个操作的用时和队列的大小仅成对数关系。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> MaxBinaryHeap &#123;</span><br><span class="line">    <span class="keyword">private</span> _MaxHeap: <span class="built_in">number</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> _Size: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span> (<span class="params">N: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">        <span class="comment">// Heap的0位不存元素</span></span><br><span class="line">        <span class="keyword">this</span>._MaxHeap = <span class="keyword">new</span> <span class="built_in">Array</span>(N + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">this</span>._Size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> isEmpty(): <span class="built_in">boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._Size === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Size(): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._Size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Insert(v: <span class="built_in">number</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>._MaxHeap[++<span class="keyword">this</span>._Size] = v;</span><br><span class="line">        <span class="keyword">this</span>._Swim(<span class="keyword">this</span>._Size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** 删除队首的元素 */</span></span><br><span class="line">    <span class="keyword">public</span> DelMax(): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> _max = <span class="keyword">this</span>._MaxHeap[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">this</span>._Swap(<span class="number">1</span>, <span class="keyword">this</span>._Size--); <span class="comment">// 与树尾元素交换位置</span></span><br><span class="line">        <span class="keyword">this</span>._MaxHeap[<span class="keyword">this</span>._Size + <span class="number">1</span>] = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">this</span>._Sink(<span class="number">1</span>); <span class="comment">// 重新定位树尾的元素</span></span><br><span class="line">        <span class="keyword">return</span> _max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向上冒泡元素</span></span><br><span class="line"><span class="comment">     * @param index </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> _Swim(index: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (index &gt; <span class="number">1</span> &amp;&amp; <span class="built_in">Math</span>.round(index / <span class="number">2</span>) &lt; index) &#123;</span><br><span class="line">            <span class="keyword">this</span>._Swap(<span class="built_in">Math</span>.round(index / <span class="number">2</span>), index);</span><br><span class="line">            index = <span class="built_in">Math</span>.round(index / <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下沉元素</span></span><br><span class="line"><span class="comment">     * @param index </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> _Sink(index: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> ((index &lt;&lt; <span class="number">1</span> ) &lt;= <span class="keyword">this</span>._Size) &#123;</span><br><span class="line">            <span class="keyword">let</span> j = index &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (j &lt; <span class="keyword">this</span>._Size &amp;&amp; <span class="keyword">this</span>._MaxHeap[j] &lt; <span class="keyword">this</span>._MaxHeap[j + <span class="number">1</span>])</span><br><span class="line">                j++; <span class="comment">// 左右元素</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>._MaxHeap[index] &gt; <span class="keyword">this</span>._MaxHeap[j])</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// 位置正常;</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">this</span>._Swap(index, j); <span class="comment">/// 否则交换与父元素位置</span></span><br><span class="line">            index = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 交换元素</span></span><br><span class="line"><span class="comment">     * @param i </span></span><br><span class="line"><span class="comment">     * @param j </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> _Swap(i: <span class="built_in">number</span>, j: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp: <span class="built_in">number</span> = <span class="keyword">this</span>._MaxHeap[j];</span><br><span class="line">        <span class="keyword">this</span>._MaxHeap[j] = <span class="keyword">this</span>._MaxHeap[i];</span><br><span class="line">        <span class="keyword">this</span>._MaxHeap[i] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于大量混杂的插入和删除最大元素操作的典型应用来说，使用二叉堆是一项重要的性能突破(图的优化)。</p>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><blockquote>
+<p>将所有元素插入一个查找最小元素的优先队列，然后再重复调用删除最小元素的操作来将他们按顺序删除。这种全新的排序方法被称为堆排序！</p>
+</blockquote>
+<p>堆排序可以分为两个阶段:</p>
+<ol>
+<li>在堆的构造阶段中，将原始数组重新组织安排进一个堆中。</li>
+<li>在下沉阶段，从堆中按递减顺序取出所有元素并得到排序结果。</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> _sink(items: <span class="built_in">number</span>[], s: <span class="built_in">number</span>, e: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ((s &lt;&lt; <span class="number">1</span> ) &lt;= e) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = s &lt;&lt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (j &lt; e &amp;&amp; items[j] &lt; items[j + <span class="number">1</span>])</span><br><span class="line">            j++; <span class="comment">// 左右元素</span></span><br><span class="line">        <span class="keyword">if</span> (items[s] &gt; items[j])</span><br><span class="line">            <span class="keyword">break</span>; <span class="comment">// 位置正常;</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">this</span>._Swap(s, j); <span class="comment">/// 否则交换父元素与子元素位置</span></span><br><span class="line">        s = j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> heapSort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">let</span> N = items.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> k = N / <span class="number">2</span>; k &gt;= <span class="number">1</span>; k--) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">this</span>._sink(items, k, N);</span><br><span class="line">        <span class="keyword">while</span> (N &gt; <span class="number">1</span>) &#123; </span><br><span class="line">            <span class="keyword">this</span>.swape(items, <span class="number">1</span>, N--); </span><br><span class="line">            <span class="keyword">this</span>._sink(items, <span class="number">1</span>, N);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>堆排序较大的缺点是无法利用缓存，由于数组元素很少的与其相邻的元素进行比较，因此出现<a href="https://zh.wikipedia.org/wiki/CPU%E7%BC%93%E5%AD%98" target="_blank" rel="noopener">缓存</a>未命中的次数要远高于其他算法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/15/2019.10.15%20%E5%A0%86%E6%8E%92%E5%BA%8F/" data-id="ck8x3j97y00002c2u98up5ytq" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-2019.10.14 归并排序" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" class="article-date">
@@ -697,50 +795,6 @@
 
 
   
-    <article id="post-2017.8.1 ES6中的箭头函数的深入理解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" class="article-date">
-  <time datetime="2017-07-31T16:00:00.000Z" itemprop="datePublished">2017-08-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">ES6中箭头函数的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>在You Tube上看到一个关于ECMAScript 6详解的视频<a href="https://www.youtube.com/watch?v=Bea2QW_kXUY" target="_blank" rel="noopener">ES6多了什么？</a>，遂对以往箭头函数学习中存在的漏洞进行补缺，特别是箭头函数中的this指向：永远指向箭头函数生成时的包裹该方法的对象 ， 并且this指向并不会存在嵌套函数指向window的问题.</p>
-<hr>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开胃小Demo</span></span><br><span class="line"><span class="keyword">var</span> data = <span class="string">'html基础,css基础,jquery,html5,css3,javascript高级'</span>.split(<span class="string">","</span>);</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).innerHTML = <span class="string">'&lt;ul&gt;'</span>+ data.map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="string">'&lt;li '</span>+( i % <span class="number">2</span> == <span class="number">1</span> ?  <span class="string">"class='even'"</span>: <span class="string">""</span> )+ <span class="string">'&gt;'</span> + v + <span class="string">'&lt;/li&gt;'</span> </span><br><span class="line">        &#125;).join(<span class="string">""</span>) + <span class="string">'&lt;/ul&gt;'</span>;</span><br><span class="line">    &#125;)();</span><br><span class="line">    <span class="comment">//使用箭头函数进行改写  -&gt;箭头函数没有作用域及原型对象，不能使用new关键字(没有constructor和prototype属性), 同时箭头函数中的this始终为定义函数时的this,无法被改变</span></span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">//当有多个参数时， 参数需要用括号括起来， 当代码块中有多句执行代码时需要用大括号括起来.</span></span><br><span class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"dv"</span>).innerHTML = <span class="string">"&lt;ul&gt;"</span> + data.map( <span class="function">(<span class="params">v,i</span>) =&gt;</span> <span class="string">'&lt;li '</span>+ ( i % <span class="number">2</span> === <span class="number">1</span> ? <span class="string">"class='even'"</span> :<span class="string">""</span> ) +<span class="string">'&gt;'</span> + v + <span class="string">'&lt;/li&gt;'</span> ).join(<span class="string">""</span>) + <span class="string">"&lt;/ul&gt;"</span> ;</span><br><span class="line">    &#125;)();</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//以下是对箭头函数的深入 </span></span><br><span class="line">    <span class="comment">//当参数超过2个时可以这样</span></span><br><span class="line">    <span class="keyword">var</span> add = <span class="function">(<span class="params">x , y</span>) =&gt;</span> x+y ; </span><br><span class="line">    <span class="comment">//es5的数组reduce方法: 第一个参数为指定回调，第二个参数为累积运算的初始值.</span></span><br><span class="line">    <span class="keyword">var</span> sum = <span class="function">(<span class="params">...args</span>)=&gt;</span><span class="built_in">Array</span>.prototype.slice.call(args,<span class="number">0</span>).reduce(add , <span class="number">0</span>);   <span class="comment">//slice会返回一个新数组 此时的args等价于arguments.</span></span><br><span class="line">    <span class="keyword">var</span> subIndexOne = <span class="function">(<span class="params">a,...args</span>)=&gt;</span><span class="built_in">Array</span>.prototype.slice.call(args,<span class="number">0</span>).reduce(add , <span class="number">0</span>); <span class="comment">//此时的args等价于arguments减去索引为0的实参.</span></span><br><span class="line">    <span class="comment">// function sum (a)&#123;</span></span><br><span class="line">    <span class="comment">//     var args = arguments ;</span></span><br><span class="line">    <span class="comment">//     return Array.prototype.slice.call(args, 0 ).reduce(add , 0);</span></span><br><span class="line">    <span class="comment">// &#125;;</span></span><br><span class="line">    <span class="keyword">var</span> num1 = sum( <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>); <span class="comment">// 36</span></span><br><span class="line">    <span class="keyword">var</span> num2 = subIndexOne( <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span> ) ; <span class="comment">// 35</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//关于ECMAScript 6中箭头函数的this指向问题:this永远指向其生成环境时的上下文环境.（也可以理解为this永远指向包裹当前方法的那个对象）</span></span><br><span class="line">    <span class="keyword">var</span> arr = [</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Sam'</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Roll'</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">name</span>:<span class="string">'Mary'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Amap</span>(<span class="params"> someArr </span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> someArr.map( <span class="function"><span class="params">()</span>=&gt;</span><span class="keyword">this</span>.name );</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> x = &#123;</span><br><span class="line">        name:<span class="string">'super'</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    x.Xmap = Amap ;  <span class="comment">//此时箭头函数中的this指向x对象 ， 因为Xmap方法是在x对象下生成的</span></span><br><span class="line">    Amap( arr );  <span class="comment">// ['' , '' , '' ]; //此时箭头函数的this指向window , 因为Amap属于window对象下的一个方法</span></span><br><span class="line">    x.Xmap( arr ); <span class="comment">// ['super' , 'super' , 'super' ]</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" data-id="ck8vrubyc0008gx2u7dhufsqt" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
 
 
   <nav id="page-nav">
@@ -778,7 +832,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/HTML5/" style="font-size: 14px;">HTML5</a> <a href="/tags/c/" style="font-size: 17.67px;">c++</a> <a href="/tags/js/" style="font-size: 25px;">js</a> <a href="/tags/openGL/" style="font-size: 14px;">openGL</a> <a href="/tags/ts/" style="font-size: 14px;">ts</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 21.33px;">数据结构与算法</a>
+      <a href="/tags/HTML5/" style="font-size: 14px;">HTML5</a> <a href="/tags/c/" style="font-size: 19.5px;">c++</a> <a href="/tags/js/" style="font-size: 25px;">js</a> <a href="/tags/openGL/" style="font-size: 14px;">openGL</a> <a href="/tags/ts/" style="font-size: 14px;">ts</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 25px;">数据结构与算法</a>
     </div>
   </div>
 
@@ -798,15 +852,15 @@
           </li>
         
           <li>
+            <a href="/2019/10/15/2019.10.15%20%E5%A0%86%E6%8E%92%E5%BA%8F/">优先队列及堆排序</a>
+          </li>
+        
+          <li>
             <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>
           </li>
         
           <li>
             <a href="/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">openGL中的3d相关知识</a>
           </li>
         
       </ul>
