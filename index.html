@@ -586,7 +586,11 @@
 
 <h3 id="生成h5静态页面"><a href="#生成h5静态页面" class="headerlink" title="生成h5静态页面"></a>生成h5静态页面</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  hexo generate</span><br></pre></td></tr></table></figure>
 
-<h3 id="至此，就可以在public文件夹下看到属于自己第一篇blog文章啦"><a href="#至此，就可以在public文件夹下看到属于自己第一篇blog文章啦" class="headerlink" title="至此，就可以在public文件夹下看到属于自己第一篇blog文章啦~"></a>至此，就可以在public文件夹下看到属于自己第一篇blog文章啦~</h3><p>更多详情: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="创建github-io项目并修改hexo项目配置"><a href="#创建github-io项目并修改hexo项目配置" class="headerlink" title="创建github.io项目并修改hexo项目配置"></a>创建github.io项目并修改hexo项目配置</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy: </span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;ssh/https地址&gt;</span><br><span class="line">    branch: 根据自己项目的分支地址来填，默认为master分支</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装github部署环境"><a href="#安装github部署环境" class="headerlink" title="安装github部署环境"></a>安装github部署环境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
+<h3 id="至此，就可以在自己的github托管页面下看到属于自己的blog啦"><a href="#至此，就可以在自己的github托管页面下看到属于自己的blog啦" class="headerlink" title="至此，就可以在自己的github托管页面下看到属于自己的blog啦~"></a>至此，就可以在自己的github托管页面下看到属于自己的blog啦~</h3><p>更多详情: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">官方文档</a></p>
 
       
     </div>
