@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>C++中的指针及内存操作 | 小虾米的大虾梦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="定义一个指针1234567891011int p , *p_some ;p &#x3D; 10 ;p_update&#x3D; &amp;4 ; &#x2F;&#x2F; 取址操作(为指针赋值);cout &lt;&lt; *p_update&lt;&lt;endl ; &#x2F;&#x2F; 解值操作 获取内存地址所对应的数据对象&#x2F;&#x2F; 定义一个int类型的blockint *p &#x3D; new int ; &#x2F;&#x2F; 用于存储一个int类型变量的block">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++中的指针及内存操作">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/2018.3.1%20C++%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88%E3%80%81%E5%8F%8A%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C/">
+<meta property="og:site_name" content="小虾米的大虾梦">
+<meta property="og:description" content="定义一个指针1234567891011int p , *p_some ;p &#x3D; 10 ;p_update&#x3D; &amp;4 ; &#x2F;&#x2F; 取址操作(为指针赋值);cout &lt;&lt; *p_update&lt;&lt;endl ; &#x2F;&#x2F; 解值操作 获取内存地址所对应的数据对象&#x2F;&#x2F; 定义一个int类型的blockint *p &#x3D; new int ; &#x2F;&#x2F; 用于存储一个int类型变量的block">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2017-10-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-12T01:26:12.370Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小虾米的大虾梦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小虾米的大虾梦</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不积跬步,无以至千里;不积小流,无以成江海。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2018.3.1 C++中的指针、及内存操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/01/2018.3.1%20C++%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88%E3%80%81%E5%8F%8A%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2017-10-31T16:00:00.000Z" itemprop="datePublished">2017-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++中的指针及内存操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <ul>
+<li>定义一个指针<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> p , *p_some ;</span><br><span class="line">p = <span class="number">10</span> ;</span><br><span class="line">p_update= &amp;<span class="number">4</span> ; <span class="comment">// 取址操作(为指针赋值);</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *p_update&lt;&lt;<span class="built_in">endl</span> ; <span class="comment">// 解值操作 获取内存地址所对应的数据对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个int类型的block</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span> ; <span class="comment">// 用于存储一个int类型变量的block  , 运行时创建 </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; p &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// block</span></span><br><span class="line">*p = <span class="number">1001</span>; 解绑指针并赋值</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *p &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 1001 </span></span><br><span class="line"><span class="keyword">delete</span> p ; <span class="comment">// 删除指针(new delete对应 防止内存泄露 切勿重复删除)</span></span><br></pre></td></tr></table></figure></li>
+<li>C++ 将数组名解释为地址 (对使用指针及new关键字申明的数组进行累加操作时将被视为对内存的操作)<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p_some =<span class="keyword">new</span> <span class="keyword">int</span> [<span class="number">1000</span>] ; <span class="comment">// 申请1000个储存int类型的block</span></span><br><span class="line">p_some[<span class="number">0</span>] = <span class="number">100</span> ; <span class="comment">// 将索引为1的值直接赋值为100 ； 可直接使用p_some变量指向数组而不用解绑操作 ==&gt; 在c++中数组与指针等价。</span></span><br><span class="line">p_some[<span class="number">1</span>] = <span class="number">200</span> ;</span><br><span class="line">p_some[<span class="number">2</span>] = <span class="number">300</span> ;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; p_some[<span class="number">0</span>] &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 100 ;</span></span><br><span class="line">p_some = p_some + <span class="number">1</span> ;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; p_some[<span class="number">0</span>] &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 200 ;</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; p_some[<span class="number">1</span>] &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 300  ; // p_some++时表示数组索引+1</span></span><br><span class="line">p_some = p_some - <span class="number">1</span> ; <span class="comment">// 表示数组的索引值减1, 指针回到初始位。 当然正确的理解是指针的算数+1导致指针向正确的方向增加了数据字节数个增量所以导致了索引的偏移</span></span><br><span class="line"><span class="keyword">delete</span> [] p_some ;</span><br></pre></td></tr></table></figure></li>
+<li>显示声明数组 编译时 多数情况下<strong>C++将数组名解释为数组第1个元素的地址</strong> 参见wages<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> wages[<span class="number">3</span>] = &#123; <span class="number">100.0</span> , <span class="number">200.0</span> , <span class="number">300.0</span>&#125; ; </span><br><span class="line">short stacks[<span class="number">3</span>] = &#123; <span class="number">3</span> , <span class="number">2</span> , <span class="number">1</span> &#125; ; <span class="comment">// 字符串形式的"number"</span></span><br><span class="line"><span class="keyword">double</span> * pw = wages ; <span class="comment">// 取array地址 ； array等同于&amp;wages[0] =&gt; 由于此时的point指向第一个值  </span></span><br><span class="line">short ps = &amp;stacks[<span class="number">0</span>]; <span class="comment">// 提名的最好解释</span></span><br><span class="line">pw ++ ;</span><br><span class="line">ps++ ; </span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *pw &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 200.0</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *ps &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 2 </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; pw &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 内存地址加8 </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; ps &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// 内存地址加2</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(wages) &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 24 此时为数组的地址</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="keyword">sizeof</span>(pw) &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 4 指针的长度永远为4</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; statcks[<span class="number">0</span>] &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 3 </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; wages[<span class="number">0</span>] &lt;&lt; <span class="built_in">end</span>; <span class="comment">// 100 .0 并不会对原数组造成影响</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *( ++pw) &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 1 </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *(--ps) &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>对数组名取址时显示整个数组的地址 而直接使用数组名时得到的是索引为0的值的内存地址</strong><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">short tell [<span class="number">10</span>] ; <span class="comment">// 声明一个数组</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; tell &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 显示&amp;tell[0]的内存地址</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; &amp;tell &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 显示整个数组的地址 =&gt;该指针指向包含20个元素的short数组short (*)[20]</span></span><br><span class="line"><span class="comment">// 可以将其描述为</span></span><br><span class="line">short (*p_some) [<span class="number">10</span>] = &amp;tell ; <span class="comment">// 定义了一个指针变量括号类的 其大小为20个block</span></span><br><span class="line">p_some== &amp;tell ; <span class="comment">// true 取址</span></span><br><span class="line">*p_some== tell ; <span class="comment">// true 解绑</span></span><br><span class="line">(*p_some)[<span class="number">0</span>] = tell[<span class="number">0</span>] ; <span class="comment">// true 数组解绑</span></span><br></pre></td></tr></table></figure></li>
+<li>指针与字符串<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> p_string = <span class="string">"abcd"</span> ; <span class="comment">// ***将char指针初始化为指向一个字符串("abcd"其实是new了一个char block 获得了一个内存地址并将其赋值给了指针p_string)*** 系统自动指定内存中的位置 并且该位置的字符数组为&#123;a , b , c , d , "\0"&#125; ;  </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; p_string &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// abcd ; not a block </span></span><br><span class="line"><span class="keyword">char</span> temp_string[<span class="number">4</span>] = &#123; <span class="string">"A"</span> &#125; ; <span class="comment">// 指向一个字符数组</span></span><br><span class="line"><span class="keyword">char</span> *src = temp_string ; <span class="comment">// 所有的char指针直接赋值字符串时需要使用&#123;&#125;聚合</span></span><br><span class="line"><span class="keyword">char</span> *p_src = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">10</span>] ; <span class="comment">// 使用new关键字获取内存块</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用std::string 对象来简化开发</span></span><br><span class="line"><span class="keyword">char</span> animal[<span class="number">20</span>] = <span class="string">"bear"</span> ; <span class="comment">// 直接赋值一个内存地址给变量animal</span></span><br><span class="line"><span class="keyword">char</span> *ps ;</span><br><span class="line">ps = animal ;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; (<span class="keyword">int</span> *) animal &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// the stroage block same as ps ;</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; (<span class="keyword">int</span> *) ps &lt;&lt; <span class="built_in">endl</span> ; </span><br><span class="line">ps = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(animal) + <span class="number">1</span> ] ; <span class="comment">// new block to ps;</span></span><br><span class="line"><span class="built_in">strcpy</span>(ps , animal); <span class="comment">//  copy string to ps , then there is deffercent ;</span></span><br><span class="line"></span><br><span class="line">about <span class="built_in">strcpy</span>  =&gt; <span class="built_in">get</span> two arguments , the first is target block ; scend is copyed <span class="built_in">string</span> variable.</span><br><span class="line"></span><br><span class="line"><span class="comment">// 小结: 当将字符串放于数组中 ， 初始化数组时 请使用=运算符 否则应使用strcpy() ;</span></span><br><span class="line"><span class="keyword">char</span> food[<span class="number">20</span>] = <span class="string">"carrots"</span> ; <span class="comment">// init ;</span></span><br><span class="line"><span class="built_in">strcpy</span>(food , <span class="string">"flan"</span>); <span class="comment">// 重新赋值 如果第二个参数过长可能导致问题 strncpy</span></span><br><span class="line"><span class="keyword">if</span> ( the sconed too <span class="keyword">long</span>  ) </span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">strncpy</span>( food , <span class="string">" a long long long long long string "</span> , <span class="keyword">int</span> (the <span class="built_in">max</span> <span class="built_in">string</span> num) ) ;</span><br><span class="line">  <span class="built_in">strncpy</span>( food , <span class="string">" a long long long long long string "</span> , <span class="number">200</span> ) ;</span><br><span class="line">  food[<span class="number">200</span>] = <span class="string">"\0"</span> ; <span class="comment">// 然后将最后一个字符置为空字符以标记字符串的结尾（当字符串个数小于200的情况下）</span></span><br><span class="line"></span><br><span class="line">警告 : 应该使用<span class="built_in">strcpy</span>或<span class="built_in">strncpy</span>() ; 而不是赋值运算符来将字符串赋值给数组</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>小结<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明指针</span></span><br><span class="line">typeName * pointerName ;</span><br><span class="line">doublue * pn ;</span><br><span class="line"><span class="keyword">char</span> * pc ;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给指针赋值</span></span><br><span class="line"><span class="keyword">double</span> * pn ;</span><br><span class="line"><span class="keyword">double</span> * pa ;</span><br><span class="line"><span class="keyword">char</span> * pc ; </span><br><span class="line"><span class="keyword">double</span> bubble = <span class="number">3.2</span> ;</span><br><span class="line">pn = &amp;bubble ;</span><br><span class="line">pc = <span class="keyword">new</span> <span class="keyword">char</span> ; <span class="comment">// new 关键字返回内存地址 用指针声明</span></span><br><span class="line">pa = <span class="keyword">new</span> <span class="keyword">double</span> [<span class="number">30</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为指针解除引用</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; *pn &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// 3.2</span></span><br><span class="line">*pc = <span class="string">"SSS"</span> ; <span class="comment">// 解绑后赋值 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 区别指针和指针指向的值</span></span><br><span class="line"><span class="keyword">int</span> * p = <span class="keyword">new</span> <span class="keyword">int</span> ;  <span class="comment">// 内存地址 **只有指针变量才能使用new操作符**</span></span><br><span class="line">*p = <span class="number">100</span> ; <span class="comment">// 指针指向的值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组名</span></span><br><span class="line"><span class="keyword">int</span> tacos [<span class="number">10</span>] ;</span><br><span class="line">tocos = &amp;tocos[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针算数</span></span><br><span class="line">init tocos[<span class="number">10</span>] = &#123; <span class="number">1</span> ,<span class="number">2</span> ,<span class="number">2</span> ,<span class="number">4</span> ,<span class="number">4</span> <span class="number">2</span>,<span class="number">2</span>&#125; ;</span><br><span class="line"><span class="keyword">int</span> *first = tocos ; </span><br><span class="line">first ++ ;</span><br><span class="line"><span class="keyword">int</span> *last = &amp;tocos[<span class="number">9</span>];</span><br><span class="line">last -- ; </span><br><span class="line"><span class="keyword">int</span> diff = last - first ; <span class="comment">// diff is 4 ;</span></span><br><span class="line"><span class="keyword">int</span> dis = *last - *first ; <span class="comment">// 0 ;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组的动态联编和静态联编</span></span><br><span class="line"><span class="keyword">int</span> tacos[<span class="number">10</span>] ; <span class="comment">// 静态联编</span></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">size</span> ;</span><br><span class="line"><span class="built_in">cin</span> &gt;&gt; <span class="built_in">size</span> ; <span class="comment">// 自定义size长度</span></span><br><span class="line"><span class="keyword">int</span> * pz = <span class="keyword">new</span> <span class="keyword">int</span> [<span class="built_in">size</span>]; <span class="comment">// 动态联编</span></span><br><span class="line"><span class="keyword">delete</span> [] pz ; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组表示法和指针表示法</span></span><br><span class="line"><span class="keyword">int</span> * arr = <span class="keyword">new</span> <span class="keyword">int</span> [<span class="number">10</span>] ;</span><br><span class="line">*arr = <span class="number">5</span>;  <span class="comment">// 等同于 arr[0] = 5 ; *arr表示对arr解除绑定返回其指向的索引为0的值 </span></span><br><span class="line">arr[<span class="number">0</span>] = <span class="number">10</span> ; </span><br><span class="line">arr[<span class="number">2</span>] = <span class="number">30</span> ;</span><br><span class="line"><span class="keyword">int</span> count [<span class="number">10</span>] ;</span><br><span class="line">* (count + <span class="number">4</span>) = <span class="number">50</span> ; <span class="comment">// count [4] = 50 ;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/01/2018.3.1%20C++%E4%B8%AD%E7%9A%84%E6%8C%87%E9%92%88%E3%80%81%E5%8F%8A%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C/" data-id="ck8vrubyb0006gx2u82do847m" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/02/2018.1.2%20PureMVC+egret%20%E7%BB%84%E7%BB%87%E4%BB%A3%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          PureMVC+egret组织代码的理解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/01/2017.8.1%20ES6%E4%B8%AD%E7%9A%84%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">ES6中箭头函数的理解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/11/2020.4.11%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/">Hexo诞生记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">openGL中的3d相关知识</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>归并排序 | 小虾米的大虾梦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一章学习了插入排序，回过头去看的时候，发现插入排序最大的特点就是：遍历整个数组，按照排序规则进行元素位置交换。而归并排序的思想在于分解-重组，利用递归的性质将大数组的排序问题分解成n个子数组的排序问题，然后将子数组的排序结果返回。优点在于长度为N的数组所需时间和NlogN成正比。缺点也很明显，递归排序是空间换时间的典型列子。 归并排序主要包含三大要点：  原地归并的抽象方法 自顶向下的归并排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="http://yoursite.com/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">
+<meta property="og:site_name" content="小虾米的大虾梦">
+<meta property="og:description" content="上一章学习了插入排序，回过头去看的时候，发现插入排序最大的特点就是：遍历整个数组，按照排序规则进行元素位置交换。而归并排序的思想在于分解-重组，利用递归的性质将大数组的排序问题分解成n个子数组的排序问题，然后将子数组的排序结果返回。优点在于长度为N的数组所需时间和NlogN成正比。缺点也很明显，递归排序是空间换时间的典型列子。 归并排序主要包含三大要点：  原地归并的抽象方法 自顶向下的归并排序">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2019-10-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-12T05:29:50.764Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小虾米的大虾梦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小虾米的大虾梦</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不积跬步,无以至千里;不积小流,无以成江海。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019.10.14 归并排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" class="article-date">
+  <time datetime="2019-10-13T16:00:00.000Z" itemprop="datePublished">2019-10-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      归并排序
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>上一章学习了插入排序，回过头去看的时候，发现插入排序最大的特点就是：遍历整个数组，按照排序规则进行元素位置交换。而归并排序的思想在于<a href="类似二叉树的生成">分解-重组</a>，利用递归的性质将大数组的排序问题分解成n个子数组的排序问题，然后将子数组的排序结果返回。优点在于长度为N的数组所需时间和NlogN成正比。缺点也很明显，递归排序是空间换时间的典型列子。</p>
+<p>归并排序主要包含三大要点：</p>
+<ul>
+<li><strong>原地归并的抽象方法</strong></li>
+<li><strong>自顶向下的归并排序</strong></li>
+<li><strong>自底向上的归并排序</strong></li>
+</ul>
+<h2 id="原地归并的抽象方法"><a href="#原地归并的抽象方法" class="headerlink" title="原地归并的抽象方法"></a>原地归并的抽象方法</h2><blockquote>
+<p>归并在将一个大数组排序时，需要进行很多次归并，因此在每次归并时都创建个一个新数组会带来问题。希望有一种能在原地归并的方法。-[算法]<a href="https://book.douban.com/subject/19952400" target="_blank" rel="noopener"></p>
+</blockquote>
+<p>原地归并的目地在于先将前半部分排序，再将后半部分排序，然后在数组中移动元素而不需要使用额外的空间。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Aux: <span class="built_in">number</span>[]; <span class="comment">// 待归并的临时数组</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 原地归并</span></span><br><span class="line"><span class="comment"> * @param beComapre 被比较数组</span></span><br><span class="line"><span class="comment"> * @param low 左边界</span></span><br><span class="line"><span class="comment"> * @param mid 中边界</span></span><br><span class="line"><span class="comment"> * @param high 右边界</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> merge(beComapre: <span class="built_in">number</span>[], low: <span class="built_in">number</span>, mid: <span class="built_in">number</span>, high: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> i = low, <span class="comment">// 左边游标</span></span><br><span class="line">        j = mid + <span class="number">1</span>; <span class="comment">// 右边游标</span></span><br><span class="line">    <span class="comment">// 生成归并数组(aux[low] ~ aux[high])</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> k = low; k &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">this</span>.Aux[k] = beComapre[k];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> k = low; k &lt;= high; k++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; mid) &#123; <span class="comment">// 左边用尽，取右边元素</span></span><br><span class="line">            beComapre[k] = <span class="keyword">this</span>.Aux[j];</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (j &gt; high) &#123; <span class="comment">// 右边用尽，取左边元素</span></span><br><span class="line">            beComapre[k] = <span class="keyword">this</span>.Aux[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.Aux[j] &lt; <span class="keyword">this</span>.Aux[i]) &#123; <span class="comment">// 右边的当前元素小于左半边的当前元素，取右半边的元素</span></span><br><span class="line">            beComapre[k] = <span class="keyword">this</span>.Aux[j];</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.Aux[j] &gt;= <span class="keyword">this</span>.Aux[i]) &#123; <span class="comment">// 右半边的元素大于等于左半边的元素，取左半边的元素</span></span><br><span class="line">            beComapre[k] = <span class="keyword">this</span>.Aux[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原地归并将所有被比较元素复制到一个辅助数组中，再把归并的结构放回原数组中。</p>
+<h2 id="自顶向下的归并排序"><a href="#自顶向下的归并排序" class="headerlink" title="自顶向下的归并排序"></a>自顶向下的归并排序</h2><blockquote>
+<p>自顶向下的归并排序是<a href="https://zh.wikipedia.org/wiki/%E5%88%86%E6%B2%BB%E6%B3%95" target="_blank" rel="noopener">分治法</a>的典型应用。其证明基础在于：如果它能将两个子数组排序，它就能够通过归并两个子数组来将整个数组排序。 </p>
+</blockquote>
+<p>将被排序数组按中边界进行分割成N个长度大于1的子数组，然后将子数组进行原地归并。自定向下的归并排序有二分法的影子。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 自顶向下的归并排序</span></span><br><span class="line"><span class="comment"> * @param items </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> mSort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">this</span>.Aux = <span class="keyword">new</span> <span class="built_in">Array</span>(items.length);</span><br><span class="line">    <span class="keyword">this</span>.m_mSort(items, <span class="number">0</span>, items.length - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> m_mSort(beComapre: <span class="built_in">number</span>[], low: <span class="built_in">number</span>, high: <span class="built_in">number</span>): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">if</span> (low &gt;= high) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">let</span> mid = <span class="built_in">Math</span>.round(low + (high - low) / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">this</span>.m_mSort(beComapre, low, mid); <span class="comment">// 左子树优先</span></span><br><span class="line">    <span class="keyword">this</span>.m_mSort(beComapre, mid + <span class="number">1</span>, high);</span><br><span class="line">    <span class="keyword">this</span>.merge(beComapre, low, mid, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>归并排序的调用栈可以看成是一颗左子树优先的二叉生成树。</p>
+<h3 id="归并排序优化"><a href="#归并排序优化" class="headerlink" title="归并排序优化"></a>归并排序优化</h3><ul>
+<li>对小规模子数组可以使用插入排序 <br><br>  因为递归会使小规模问题中方法的调用过于频繁，所以可以将较小规模的子数组使用插入排序。</li>
+<li>测试数组是否已经有序 <br><br>  可以添加一个判断条件 如果beCompared[mid] 小于等于 beCompared[mid +1]，则认为数组是有序的，那就跳过meger方法。  <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (beCompared[mid] &lt;= beCompared[mid + <span class="number">1</span>]) &#123;</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>不将元素复制到辅助数组</li>
+</ul>
+<h2 id="自底向上的归并排序"><a href="#自底向上的归并排序" class="headerlink" title="自底向上的归并排序"></a>自底向上的归并排序</h2><p> 实现归并排序的另一种方法是先归并那些微型数组，然后再成对归并得到的子数组，直到我们将整个数组归并在一起。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自底向上的归并排序</span></span><br><span class="line"><span class="comment"> * @param items </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> mbSort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">let</span> N = items.length;</span><br><span class="line">    <span class="keyword">this</span>.Aux = <span class="keyword">new</span> <span class="built_in">Array</span>(N);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; N; i = i + i) &#123; <span class="comment">// i 1 2 4 </span></span><br><span class="line">        <span class="comment">/// 类似二叉堆的向上冒泡遍历 先2*2 后 4 * 4 / 8 * 8</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; N - i; j = j + i + i) &#123; </span><br><span class="line">            <span class="keyword">this</span>.merge(items, j, j + i - <span class="number">1</span>, <span class="built_in">Math</span>.min(j+i+i<span class="number">-1</span>, N<span class="number">-1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自底向上的归并排序会多次遍历整个数组，根据子数组大小进行两两归并。自数组的大小i的初始值为1，每次加倍。最后一个子数组的大小只有在数组大小是i的偶数倍的时候才会等于i 否则它会比i小。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ul>
+<li>自顶向下的归并排序优化实现</li>
+<li>自底向上的归并排序使用链表进行优化</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" data-id="ck8wlwkj800005e2u9lhjf13f" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          快速排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">插入排序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原地归并的抽象方法"><span class="toc-number">1.</span> <span class="toc-text">原地归并的抽象方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自顶向下的归并排序"><span class="toc-number">2.</span> <span class="toc-text">自顶向下的归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#归并排序优化"><span class="toc-number">2.1.</span> <span class="toc-text">归并排序优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自底向上的归并排序"><span class="toc-number">3.</span> <span class="toc-text">自底向上的归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-number">4.</span> <span class="toc-text">TODO</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

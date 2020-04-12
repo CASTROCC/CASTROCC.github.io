@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>快速排序 | 小虾米的大虾梦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="快速排序的思想和归并排序的思想很相似，也是一种分治的排序算法。它将两部分进行独立的排序。快速排序与归并排序是互补的： 归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组进行排序；而快速排序中数组的排序的方式则是当两个子数组都有序时，整个数组也就自然有序了。在归并排序中，对数组的处理发生在递归之后， 而在快速排序中，对数组的处理发生在递归调用之前。 快速排序的核心点：  基本算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="http://yoursite.com/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+<meta property="og:site_name" content="小虾米的大虾梦">
+<meta property="og:description" content="快速排序的思想和归并排序的思想很相似，也是一种分治的排序算法。它将两部分进行独立的排序。快速排序与归并排序是互补的： 归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组进行排序；而快速排序中数组的排序的方式则是当两个子数组都有序时，整个数组也就自然有序了。在归并排序中，对数组的处理发生在递归之后， 而在快速排序中，对数组的处理发生在递归调用之前。 快速排序的核心点：  基本算法">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="http://chuantu.xyz/t6/728/1586680416x989499252.jpg">
+<meta property="og:image" content="http://chuantu.xyz/t6/728/1586679626x989499252.jpg">
+<meta property="article:published_time" content="2019-10-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-12T09:30:56.198Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://chuantu.xyz/t6/728/1586680416x989499252.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="小虾米的大虾梦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小虾米的大虾梦</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不积跬步,无以至千里;不积小流,无以成江海。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019.10.16 快速排序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" class="article-date">
+  <time datetime="2019-10-15T16:00:00.000Z" itemprop="datePublished">2019-10-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      快速排序
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>快速排序的思想和归并排序的思想很相似，也是一种分治的排序算法。它将两部分进行独立的排序。快速排序与归并排序是互补的： 归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组进行排序；而快速排序中数组的排序的方式则是当两个子数组都有序时，整个数组也就自然有序了。在归并排序中，对数组的处理发生在递归之后， 而在快速排序中，对数组的处理发生在递归调用之前。</p>
+<p>快速排序的核心点：</p>
+<ul>
+<li>基本算法</li>
+<li>快速排序的切分</li>
+<li>算法改进</li>
+</ul>
+<h2 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h2><blockquote>
+<p>快速排序在一般算法中比其他排序要快得多。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 快速排序</span></span><br><span class="line"><span class="comment"> * @param items </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> quickSort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">this</span>.m_quickSort(items, <span class="number">0</span>, items.length - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 快速排序的基本算法</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> m_quickSort(items: <span class="built_in">number</span>[], low: <span class="built_in">number</span>, high: <span class="built_in">number</span>): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">if</span> (low &gt;= high) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">let</span> j = <span class="keyword">this</span>.partition(items, low, high); <span class="comment">/// 先对数组进行换位操作</span></span><br><span class="line">    <span class="keyword">this</span>.m_quickSort(items, <span class="number">0</span>, j - <span class="number">1</span>); <span class="comment">/// 然后递归</span></span><br><span class="line">    <span class="keyword">this</span>.m_quickSort(items, j + <span class="number">1</span>, high)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法的关键在于切分，这个过程使数组满足三个条件:</p>
+<ol>
+<li>对于参照元素items[j]，它的位置已经确定</li>
+<li>items[low] ~ items[j - 1]中的所有元素不大于items[j]中的元素</li>
+<li>items[j + 1] ~ items[high]中的所有元素不小于items[j]中的元素</li>
+</ol>
+<h2 id="快速排序的切分"><a href="#快速排序的切分" class="headerlink" title="快速排序的切分"></a>快速排序的切分</h2><blockquote>
+<p>切分算法的实现：先随意取items[low]作为切分元素(指位置会被正确摆放的元素)，然后我们从数组的左端开始向右扫描直到找到一个大于等于它的元素，再从数组的右端开始向左扫描，直到找到一个小于等于它的元素，如果存在这两个元素，说明他们不符合排序规则，交换他们的位置。当两个游标相遇时，我们只需要将切分的元素items[low]和左子数组最右边的元素items[j]交换，然后返回j作为下一轮切分的边界即可。<br><img src="http://chuantu.xyz/t6/728/1586680416x989499252.jpg" alt="快速排序的切分示意图"></p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> partition(items: <span class="built_in">number</span>[], low: <span class="built_in">number</span>, high: <span class="built_in">number</span>): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="comment">/// 将数组切分为items[low] ~ items[mid - 1] / items[mid] / items[mid + 1] ~ items[high]</span></span><br><span class="line">    <span class="keyword">let</span> i = low, <span class="comment">// 左游标</span></span><br><span class="line">        j = high + <span class="number">1</span>; <span class="comment">// 右游标</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> beComapre: <span class="built_in">number</span> = items[low];</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (items[++i] &lt; beComapre) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i === high)</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// 找到不符合判断条件的左值</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (beComapre &lt; items[j++]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j === low)</span><br><span class="line">                <span class="keyword">break</span>; <span class="comment">// 找到不符合判断规则的右值</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i &gt;= j) <span class="keyword">break</span>; <span class="comment">/// 遍历完成</span></span><br><span class="line">        <span class="keyword">this</span>.swape(i, j); <span class="comment">/// 交换i, j元素的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.swape(low, j); <span class="comment">/// 将beCompared元素放入正确的位置</span></span><br><span class="line">    <span class="keyword">return</span> j; <span class="comment">// 返回当前右游标所处的位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码按照items[low]的值进行切分。当指针i和j相遇时，主要循环退出。然后交换items[low]与item[j]的位置。<br>快速排序切分时的注意点: </p>
+<ol>
+<li>原地切分<br><br> 不要使用辅助数组</li>
+<li>保持随机性<br><br> 确保数组元素的顺序是被打乱过的。</li>
+<li>终止循环<br> 需要考虑数组中可能包含的和切分元素值相同的其他元素</li>
+<li>处理切分元素值有重复的情况<br> 见三项切分</li>
+<li>终止递归</li>
+</ol>
+<h2 id="算法改进"><a href="#算法改进" class="headerlink" title="算法改进"></a>算法改进</h2><ul>
+<li><p>切换到插入排序<br><br>  对于大多数递归排序算法，对于小数组时使用插入排序</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// if (low &gt;= high) return;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (low &gt;= high - M) &#123;</span><br><span class="line">    SortUtils.InsertSort(items, low, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>三取样切分<br><br>  改进快速排序性能的第二个方法是使用子数组中的小部分元素的中位数来切分数组。</p>
+</li>
+</ul>
+<blockquote>
+<p>从左到右遍历数组一次，维护一个指针left使得items[low] ~ items[left - 1]中的元素都小于beCompared，维护一个指针right使得items[right + 1] ~ items[high]中的所有元素都大于beCompared，一个指针i使得items[left] ~ items[i -1]中的元素都等于v。</p>
+</blockquote>
+<p>三取样切分存在的三种情况：</p>
+<ol>
+<li>items[i]小于beCompared，将items[left]与items[i]交换，left和i加一；</li>
+<li>items[i]大于beCompared.将items[right]与items[i]交换，right减一;</li>
+<li>items[i]等于beCompared，将i值加一。</li>
+</ol>
+<p><img src="http://chuantu.xyz/t6/728/1586679626x989499252.jpg" alt="三项切分示意图"></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 三项切分的快速排序</span></span><br><span class="line"><span class="comment">     * @param items </span></span><br><span class="line"><span class="comment">     * @param low </span></span><br><span class="line"><span class="comment">     * @param high </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Quick3way(items: <span class="built_in">number</span>[], low: <span class="built_in">number</span>, high: <span class="built_in">number</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (high &lt;= low) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> lt = low, <span class="comment">/// 左游标</span></span><br><span class="line">            i = low + <span class="number">1</span>, <span class="comment">/// 中游标</span></span><br><span class="line">            gt = high; <span class="comment">/// 右游标</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> beComapre: <span class="built_in">number</span> = items[low];</span><br><span class="line">        <span class="keyword">while</span> (i &lt;= gt) &#123;</span><br><span class="line">            <span class="keyword">let</span> cmp = items[i];</span><br><span class="line">            <span class="keyword">if</span> (cmp &lt; beComapre) &#123;</span><br><span class="line">                <span class="keyword">this</span>.swape(items, lt++, i++);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; beComapre) &#123;</span><br><span class="line">                <span class="keyword">this</span>.swape(items, i, gt--);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                i ++; <span class="comment">/// 中游标碰到相同元素</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.Quick3way(items, low, lt - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">this</span>.Quick3way(items, gt + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的切分能够将和切分元素相同的元素归位，这样他们就不会被包含在递归调用处理的子数组之中了。对于存在大量重复元素的数组，这种方法比标准的快速排序的效率高得多～</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" data-id="ck8wufh1e0000g82uhznj1h8v" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/11/2020.4.11%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Hexo诞生记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">归并排序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本算法"><span class="toc-number">1.</span> <span class="toc-text">基本算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序的切分"><span class="toc-number">2.</span> <span class="toc-text">快速排序的切分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法改进"><span class="toc-number">3.</span> <span class="toc-text">算法改进</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用new创建动态结构、类型组合与堆的概念 | 小虾米的大虾梦</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对于使用new动态创建的结构体 : 通常使用-&gt;来代替成员运算符点1234567891011121314151617181920212223242526272829303132333435struct things&amp;#123;    int goods ;    int bad ;  &amp;#125; &#x2F;&#x2F; 定义一个结构体things * grubose &#x3D; new things ; &#x2F;&#x2F; 动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用new创建动态结构、类型组合与堆的概念">
+<meta property="og:url" content="http://yoursite.com/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/">
+<meta property="og:site_name" content="小虾米的大虾梦">
+<meta property="og:description" content="对于使用new动态创建的结构体 : 通常使用-&gt;来代替成员运算符点1234567891011121314151617181920212223242526272829303132333435struct things&amp;#123;    int goods ;    int bad ;  &amp;#125; &#x2F;&#x2F; 定义一个结构体things * grubose &#x3D; new things ; &#x2F;&#x2F; 动">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2018-01-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-12T01:26:41.178Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="小虾米的大虾梦" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">小虾米的大虾梦</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不积跬步,无以至千里;不积小流,无以成江海。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2018.3.2 使用new创建动态结构、类型组合与堆的概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/" class="article-date">
+  <time datetime="2018-01-10T16:00:00.000Z" itemprop="datePublished">2018-01-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用new创建动态结构、类型组合与堆的概念
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <ul>
+<li>对于使用new动态创建的结构体 : 通常使用-&gt;来代替成员运算符点<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">things</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> goods ;</span><br><span class="line">    <span class="keyword">int</span> bad ;  </span><br><span class="line">&#125; <span class="comment">// 定义一个结构体</span></span><br><span class="line"></span><br><span class="line">things * grubose = <span class="keyword">new</span> things ; <span class="comment">// 动态创建结构体</span></span><br><span class="line">grubose -&gt;goods = <span class="number">3</span> ;</span><br><span class="line">grubose -&gt; bad = <span class="number">5</span> ; <span class="comment">// 通过-&gt;来为结构体赋值</span></span><br><span class="line"><span class="comment">// 也可以这样使用</span></span><br><span class="line">(* grubose).goods = <span class="number">3</span> ; </span><br><span class="line"></span><br><span class="line">(* grubose).bad = <span class="number">5</span>; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当处理大量自负床的时候 如果这些字符串的最大长度为80个字符</span></span><br><span class="line"><span class="comment">// 使用delete关键词动态创建</span></span><br><span class="line"><span class="keyword">char</span> * name ; <span class="comment">// craete char point </span></span><br><span class="line">name = getname(); </span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; name &lt;&lt; <span class="string">" at "</span> &lt;&lt; (<span class="keyword">int</span> *) name &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// string_name at block_name( * int -&gt; 强制获取内存地址)</span></span><br><span class="line"><span class="keyword">delete</span> [] name ; <span class="comment">// 内存释放</span></span><br><span class="line">name = getname(); <span class="comment">// 再次调用</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; name &lt;&lt;  <span class="string">"at"</span> &lt;&lt; (<span class="keyword">int</span> *) name  &lt;&lt; <span class="built_in">endl</span> ;</span><br><span class="line"><span class="keyword">delete</span> [] name ; <span class="comment">// 再次释放内存</span></span><br><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">getname</span><span class="params">()</span> <span class="comment">// 返回一个char类型的指针变量</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> temp[<span class="number">80</span>] ;  <span class="comment">// 声明block  </span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Enter last name: "</span> ;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; temp ;</span><br><span class="line">    <span class="keyword">char</span> * pn = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>[temp] + <span class="number">1</span>] ;  <span class="comment">// 之所以要加1是要存储空字符</span></span><br><span class="line">    <span class="built_in">strcpy</span>(pn , temp ); <span class="comment">// 新创建一个char指针变量 并将temp（用户输入）的内容写入pn指向的内存地址中</span></span><br><span class="line">    <span class="keyword">return</span> pn ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>根据内存分配的方式分为：自动存储 静态存储和动态存储 线程存储（C11新增）（储存空间或堆）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">在上面的例子中： </span><br><span class="line"></span><br><span class="line">自动存储（临时变量）:当getname()方法执行完成之后其内部的temp使用的内存将自动被释放 。</span><br><span class="line">如果getName返回temp 那么name指针指向的内存将很快得到重新使用 &#x3D;&gt; </span><br><span class="line">自动储存相当与自动回收局部变量</span><br><span class="line">&#x3D;&gt; 自动储存的变量将以此加入到栈中， 在离开代码块时会按相反的顺序释放这些变量 这</span><br><span class="line">被成灰后进先出原则（LIFO）压入 -&gt; 取出</span><br><span class="line">在程序执行过程中栈将不断的增大或缩小</span><br><span class="line"></span><br><span class="line">静态存储（静态变量）：</span><br><span class="line">整个程序执行期间都存在的存储方式(静态变量)  , 也存储在栈中。使变量成为静态的方式有两种：</span><br><span class="line">1. static 关键字 static double 1.666</span><br><span class="line">2. 在函数外部定义这个变量</span><br><span class="line"></span><br><span class="line">动态存储（通过new 和 delete 操作的变量）：</span><br><span class="line">通过new 和 delete 操作内存池(堆  , 堆与存储临时变量与</span><br><span class="line">静态变量的内存池（栈）是分开的) ， 可以在一个函数中new </span><br><span class="line">也可在另一个函数中进行delete 。所以数据的生命周期完全交给开发者自行决定（也伴随着内存泄露的存在）</span><br></pre></td></tr></table></figure></li>
+<li>类型组合<br>数组 结构 和指针的组合使用<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个结构体</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">instert_things</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> year ;</span><br><span class="line">&#125;</span><br><span class="line">instert_things i01 , i02 , i03 ; <span class="comment">// 创建这种类型的变量</span></span><br><span class="line">i01.year = <span class="number">1998</span> ; <span class="comment">// 使用成员运算符访问成员</span></span><br><span class="line"><span class="comment">// 创建instert_things 结构体类型的指针</span></span><br><span class="line">instert_things * instert_p = &amp;i02 ; </span><br><span class="line">instert_p-&gt;year = <span class="number">1999</span> ; <span class="comment">// i02变量的year属性初始化为1999</span></span><br><span class="line"><span class="comment">// 创建instert_things 结构数组</span></span><br><span class="line">instert_p  myArr[<span class="number">3</span>] ; <span class="comment">// 申明一个数组包含3个ip结构体</span></span><br><span class="line">myArr[<span class="number">0</span>].year = <span class="number">2003</span> ; <span class="comment">// myArr[0] is a structures </span></span><br><span class="line">(myArr+<span class="number">1</span>)-&gt;year = <span class="number">2004</span> ; <span class="comment">// myArr[1].year = 2004 </span></span><br><span class="line"><span class="comment">// 创建指针数组</span></span><br><span class="line"><span class="keyword">const</span> inster_p * arrpoint[<span class="number">3</span>] = &#123; &amp;i01 , &amp;i02 , &amp;i03 &#125; ; <span class="comment">// 一个储存三个内存地址的数组</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; arrpoint[<span class="number">1</span>]-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">// 2004</span></span><br><span class="line"><span class="keyword">auto</span> ppb = arrpoint ; <span class="comment">// 此时ppb为指向一个值为内存地址的内存地址</span></span><br><span class="line"><span class="built_in">std</span>:<span class="built_in">cout</span> &lt;&lt; (* ppb)-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">// 引用ppb 2003</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; (*(ppb+<span class="number">1</span>))-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">//  2004</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/" data-id="ck8vrubya0004gx2u8yaqfeiq" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/01/2018.2.1%20%E5%9C%A8ts%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9js%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          在ts项目中调用第三方js库
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/02/2018.1.2%20PureMVC+egret%20%E7%BB%84%E7%BB%87%E4%BB%A3%E7%A0%81%E7%9A%84%E7%90%86%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">PureMVC+egret组织代码的理解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/11/2020.4.11%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/">Hexo诞生记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/16/2019.10.16%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">插入排序</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">openGL中的3d相关知识</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
