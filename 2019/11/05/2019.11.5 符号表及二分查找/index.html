@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>符号表及二分查找 | 大虾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天看了下符号表以及二分查找，将其中的一些关键点记录了下来，方便以后翻阅。 先来看下什么是符号表：  符号表是一种储存健值对对数据结构，支持两种操作：插入(put)，即将一种新的健值对存入表中；查找(get)，即根据传入的健返回表中健对应的具体值。  符号表是一种典型的抽象数据类型。它代表一组清晰的值和对应的操作，他能将我们对类型的使用以及操作区分开。符号表的特点:  健值唯一，每个健对应一个值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="符号表及二分查找">
+<meta property="og:url" content="http://yoursite.com/2019/11/05/2019.11.5%20%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%8F%8A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+<meta property="og:site_name" content="大虾">
+<meta property="og:description" content="今天看了下符号表以及二分查找，将其中的一些关键点记录了下来，方便以后翻阅。 先来看下什么是符号表：  符号表是一种储存健值对对数据结构，支持两种操作：插入(put)，即将一种新的健值对存入表中；查找(get)，即根据传入的健返回表中健对应的具体值。  符号表是一种典型的抽象数据类型。它代表一组清晰的值和对应的操作，他能将我们对类型的使用以及操作区分开。符号表的特点:  健值唯一，每个健对应一个值">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2019-11-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-19T14:59:24.253Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大虾</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">江湖小虾米</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019.11.5 符号表及二分查找" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/05/2019.11.5%20%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%8F%8A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" class="article-date">
+  <time datetime="2019-11-04T16:00:00.000Z" itemprop="datePublished">2019-11-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      符号表及二分查找
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>今天看了下符号表以及二分查找，将其中的一些关键点记录了下来，方便以后翻阅。 先来看下什么是符号表：</p>
+<blockquote>
+<p>符号表是一种储存健值对对数据结构，支持两种操作：插入(put)，即将一种新的健值对存入表中；查找(get)，即根据传入的健返回表中健对应的具体值。</p>
+</blockquote>
+<p>符号表是一种典型的抽象数据类型。它代表一组清晰的值和对应的操作，他能将我们对类型的使用以及操作区分开。<br><br>符号表的特点:</p>
+<ul>
+<li>健值唯一，每个健对应一个值。不允许出现一键多值的情况。</li>
+<li>健、值不允许为空。同时健和值都可以是任意类型的对象。</li>
+</ul>
+<p>删除操作:</p>
+<ul>
+<li>延时删除: 延时删除是指删除时将对应健的值置为null， 延迟在某个时间段将所有值为null的健删除。</li>
+<li>即时删除: 立刻从表中删除健值对。</li>
+</ul>
+<p>下面是一个基于链表的无序符号表的实现:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * @Author: chao.sheng </span></span><br><span class="line"><span class="comment"> * @Date: 2019-10-14 22:48:19 </span></span><br><span class="line"><span class="comment"> * @Desc: 基于无序链表的顺序查找</span></span><br><span class="line"><span class="comment"> * @Last Modified by: chao.sheng</span></span><br><span class="line"><span class="comment"> * @Last Modified time: 2020-04-14 22:55:37</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> lk_Node&lt;Key, Value&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> key: Key;</span><br><span class="line">    <span class="keyword">public</span> val: Value;</span><br><span class="line">    <span class="keyword">public</span> Next: lk_Node&lt;Key, Value&gt;;</span><br><span class="line">    <span class="keyword">constructor</span> (<span class="params">k: Key,</span></span><br><span class="line"><span class="params">        v: Value,</span></span><br><span class="line"><span class="params">        n: lk_Node&lt;Key, Value&gt;</span></span><br><span class="line"><span class="params">        </span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.key = k;</span><br><span class="line">        <span class="keyword">this</span>.val = v;</span><br><span class="line">        <span class="keyword">this</span>.Next = n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> NodeLinkForm&lt;Key, Value&gt; &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> _first: lk_Node&lt;Key, Value&gt;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">head: lk_Node&lt;Key, Value&gt;</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>._first = head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过健值获取无序表中的某一个元素值</span></span><br><span class="line"><span class="comment">     * @param k </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Get(k: Key): Value &#123;</span><br><span class="line">        <span class="keyword">let</span> f = <span class="keyword">this</span>._first;</span><br><span class="line">        <span class="keyword">while</span> (f) &#123;</span><br><span class="line">            <span class="keyword">if</span> (k === f.key) </span><br><span class="line">                <span class="keyword">return</span> f.val</span><br><span class="line"></span><br><span class="line">            f = f.Next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加一对健值</span></span><br><span class="line"><span class="comment">     * @param k </span></span><br><span class="line"><span class="comment">     * @param v </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Put(k: Key, v: Value) &#123;</span><br><span class="line">        <span class="keyword">let</span> f = <span class="keyword">this</span>._first;</span><br><span class="line">        <span class="keyword">while</span> (f) &#123;</span><br><span class="line">            <span class="keyword">if</span> (k === f.key) &#123;</span><br><span class="line">                f.key = k;</span><br><span class="line">                f.val = v;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            f = f.Next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>._first = <span class="keyword">new</span> lk_Node(k, v, <span class="keyword">this</span>._first);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除一对健值</span></span><br><span class="line"><span class="comment">     * @param k </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Delete(k: Key) &#123;</span><br><span class="line">        <span class="keyword">let</span> f = <span class="keyword">this</span>._first;</span><br><span class="line">        <span class="keyword">while</span> (f) &#123;</span><br><span class="line">            <span class="keyword">if</span> (k === f.Next.key) &#123;</span><br><span class="line">                f.Next = f.Next.Next;</span><br><span class="line">                <span class="keyword">delete</span> f.Next;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            f = f.Next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="有序数组中的二分查找"><a href="#有序数组中的二分查找" class="headerlink" title="有序数组中的二分查找"></a>有序数组中的二分查找</h3><ul>
+<li>符号表的健按照大小的顺序组织好的，被称为有序符号表。</li>
+</ul>
+<p>下面这段代码为健和值使用了两个数组，这段代码使用了两个Array分别储存Key和Value。实际上在js中用到基于二分查找的有序符号表的场景不多，为了便于理解使用了偏强类型的ts作为解释语言。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IForm&lt;IKey, Value&gt;&#123;</span><br><span class="line">    isEmpty(): <span class="built_in">boolean</span>; <span class="comment">// 表元素是否为空</span></span><br><span class="line">    size(): <span class="built_in">number</span>; <span class="comment">// 表中元素数量</span></span><br><span class="line">    Put(key: IKey, value: Value); <span class="comment">// 插入健值对</span></span><br><span class="line">    Get(key: IKey): Value; <span class="comment">// 返回健值对对值</span></span><br><span class="line">    Contains(key: IKey): <span class="built_in">boolean</span>; <span class="comment">// 是否包含某一键所对应对元素</span></span><br><span class="line">    Delete(key: IKey); <span class="comment">// 删除某一健对应对值</span></span><br><span class="line">    min(): IKey; <span class="comment">// 最小的健</span></span><br><span class="line">    max(): IKey; <span class="comment">// 最大的健</span></span><br><span class="line">    floor(Key: IKey): IKey; <span class="comment">// 大小等于key的最大健</span></span><br><span class="line">    celling(Key: IKey): IKey; <span class="comment">// 大小等于key的最小健</span></span><br><span class="line">    Rank(Key: IKey, compare: <span class="built_in">any</span>): <span class="built_in">number</span>; <span class="comment">// Key的排名</span></span><br><span class="line">    Select(rank: <span class="built_in">number</span>): IKey; <span class="comment">// 排名为rank的健</span></span><br><span class="line">    DeleteMax(): <span class="built_in">void</span>; <span class="comment">// 删除最大的健</span></span><br><span class="line">    DeleteMin(): <span class="built_in">void</span>; <span class="comment">// 删除最小的健</span></span><br><span class="line">    Size(low: IKey, high: IKey): <span class="built_in">number</span>; <span class="comment">// 返回low ~ high之间健的数量</span></span><br><span class="line">    Keys(low: IKey, high: IKey): IKey[]; <span class="comment">// 返回表中low ~ high之间的健</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> IKey &#123;</span><br><span class="line">    compareTo(k: IKey): <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Key&lt;T&gt; <span class="keyword">implements</span> IKey &#123;</span><br><span class="line">    <span class="keyword">private</span> _value: T;</span><br><span class="line">    <span class="keyword">constructor</span> (<span class="params">v: T</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">get</span> value(): T &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> getValue(getter: <span class="built_in">Function</span>): <span class="built_in">any</span> &#123;</span><br><span class="line">        getter = getter || <span class="function"><span class="keyword">function</span> (<span class="params">a: T</span>) </span>&#123; <span class="keyword">return</span> a&#125;.bind(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span>._value === <span class="string">"object"</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> getter &amp;&amp; getter(<span class="keyword">this</span>._value);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>._value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> compareTo(k: Key&lt;T&gt;, getter?: <span class="built_in">Function</span>): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (k[<span class="string">"__proto__"</span>] !== <span class="keyword">this</span>._value[<span class="string">"__proto__"</span>]) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">"compare类型不一致"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> k === <span class="string">"object"</span> &amp;&amp; getter) &#123;</span><br><span class="line">            <span class="keyword">if</span> (getter(<span class="keyword">this</span>._value) &gt; getter(k.value)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getter(<span class="keyword">this</span>._value) === getter(k.value)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getter(<span class="keyword">this</span>._value) &lt; getter(k.value)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">"key的类型为引用类型，没有传入存取器."</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>._value &gt; k.value) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._value === k.value) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>._value &lt; k.value) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> BinarySearchArrayForm&lt;Value&gt; <span class="keyword">implements</span> IForm&lt;IKey, Value&gt;&#123;</span><br><span class="line">    <span class="keyword">private</span> _keys: IKey[];</span><br><span class="line">    <span class="keyword">private</span> _values: Value[];</span><br><span class="line">    <span class="keyword">private</span> _size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">/// 此处可以使用定容栈实现</span></span><br><span class="line">        <span class="keyword">this</span>._keys = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">        <span class="keyword">this</span>._values = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">        <span class="keyword">this</span>._size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> size(): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> isEmpty(): <span class="built_in">boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._size === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用迭代法的二分查找.</span></span><br><span class="line"><span class="comment">     * @param k </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Rank(k: IKey, corom: <span class="built_in">Function</span> = <span class="built_in">Math</span>.round): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> low = <span class="number">0</span>,</span><br><span class="line">            high = <span class="keyword">this</span>._size - <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">            <span class="keyword">let</span> mid = corom(low + (high - low) / <span class="number">2</span>);</span><br><span class="line">            <span class="keyword">let</span> compare_val = k.compareTo(<span class="keyword">this</span>._keys[mid]);</span><br><span class="line">            <span class="keyword">if</span> (compare_val === <span class="number">1</span>) low = mid + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (compare_val === <span class="number">-1</span>) high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> low;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Get(k: IKey): Value &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.isEmpty()) </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> i = <span class="keyword">this</span>.Rank(k);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._values[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Contains(key: IKey): <span class="built_in">boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._keys.indexOf(key) !== <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Delete(key: IKey) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.Contains(key)) &#123;</span><br><span class="line">            <span class="keyword">let</span> i = <span class="keyword">this</span>.Rank(key);</span><br><span class="line">            <span class="keyword">if</span> (i &lt; <span class="keyword">this</span>._size &amp;&amp; <span class="keyword">this</span>._keys[i] === key) &#123;</span><br><span class="line">                <span class="keyword">this</span>._keys.splice(i, <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">this</span>._values.splice(i, <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">this</span>._size--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> min(): IKey &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._keys[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> max(): IKey &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._keys[<span class="keyword">this</span>._size - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> floor(Key: IKey): IKey &#123;</span><br><span class="line">        <span class="keyword">let</span> rank: <span class="built_in">number</span> = <span class="keyword">this</span>.Rank(Key, <span class="built_in">Math</span>.floor);</span><br><span class="line">        <span class="keyword">if</span> (rank != <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>._keys[rank];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> celling(Key: IKey): IKey &#123;</span><br><span class="line">        <span class="keyword">let</span> rank: <span class="built_in">number</span> = <span class="keyword">this</span>.Rank(Key, <span class="built_in">Math</span>.ceil);</span><br><span class="line">        <span class="keyword">if</span> (rank != <span class="literal">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>._keys[rank];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Select(rank: <span class="built_in">number</span>): IKey &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._keys[rank];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Put(key: IKey, value: Value) &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="keyword">this</span>.Rank(key);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.Contains(key)) &#123;</span><br><span class="line">            <span class="keyword">this</span>._keys[i] = key;</span><br><span class="line">            <span class="keyword">this</span>._values[i] = value;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="keyword">this</span>._size; j &gt; i; j--) &#123;</span><br><span class="line">                <span class="keyword">this</span>._keys[j] = <span class="keyword">this</span>._keys[j + <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">this</span>._values[j] = <span class="keyword">this</span>._values[j + <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>._keys[i] = key;</span><br><span class="line">            <span class="keyword">this</span>._values[i] = value;</span><br><span class="line">            <span class="keyword">this</span>._size++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> DeleteMax(): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.Delete(<span class="keyword">this</span>.max());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> DeleteMin(): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.Delete(<span class="keyword">this</span>.min());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Size(low: IKey, high: IKey): <span class="built_in">number</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.Rank(high) - <span class="keyword">this</span>.Rank(low);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Keys(low: IKey = <span class="keyword">this</span>._keys[<span class="number">0</span>], </span><br><span class="line">        high: IKey = <span class="keyword">this</span>._keys[<span class="keyword">this</span>._keys.length - <span class="number">1</span>]): IKey[] &#123;</span><br><span class="line">        <span class="keyword">let</span> keys = <span class="keyword">new</span> <span class="built_in">Array</span>&lt;IKey&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="keyword">this</span>.Rank(low); i &lt; <span class="keyword">this</span>.Rank(high); i++)</span><br><span class="line">            keys[i] = <span class="keyword">this</span>._keys[i];</span><br><span class="line">        <span class="keyword">return</span> keys;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>二分查找使用的思想与归并排序的切分数组类似，通过中游标不停的二分数组，然后利用首尾游标的收束不停的缩减搜索范围，直到找到目标元素或被分割的最小数组长度小于等于1时停止。</p>
+</blockquote>
+<p>上面的代码使用两个数组分别记录了符号表对应的Key和Value值、然后根据Key值的大小进行了排序(可重写compareTo方法，自定义比较规则)。当我们对一个已经排好序数组进行操作时，可以使用二分查找进行。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/05/2019.11.5%20%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%8F%8A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" data-id="ck917ysvc0000i12u46s6a37r" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/16/2019.10.16%20%E5%A0%86%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">优先队列及堆排序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#有序数组中的二分查找"><span class="toc-number">1.</span> <span class="toc-text">有序数组中的二分查找</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;lenkacc1210@sina.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
