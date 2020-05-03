@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>二分搜索树 | 大虾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用了每个节点含有两个链接(链表的每个链接只含有一个节点)的二叉查找树实现符号表是计算机科学中比较重要的算法。这篇文章记载了关于BST的递归描述。  二分搜索树(BST)是结合了链表灵活插入和符号表高效查找的一种数据结构。我们可以将二叉树定义为一个空链接，或者是一个有左右两个链接的节点，每个节点还包含了一个健和一个值，健之间也有顺序之分以支持高效的查找。  本文主要包含二分搜索树的基本实现以及算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二分搜索树">
+<meta property="og:url" content="http://yoursite.com/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/">
+<meta property="og:site_name" content="大虾">
+<meta property="og:description" content="使用了每个节点含有两个链接(链表的每个链接只含有一个节点)的二叉查找树实现符号表是计算机科学中比较重要的算法。这篇文章记载了关于BST的递归描述。  二分搜索树(BST)是结合了链表灵活插入和符号表高效查找的一种数据结构。我们可以将二叉树定义为一个空链接，或者是一个有左右两个链接的节点，每个节点还包含了一个健和一个值，健之间也有顺序之分以支持高效的查找。  本文主要包含二分搜索树的基本实现以及算">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="http://yoursite.com/2019/11/07/imgs/bst/BST_Find.png">
+<meta property="og:image" content="http://yoursite.com/2019/11/07/imgs/bst/BST_Insert.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/11/07/imgs/bst/BST_Select.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/11/07/imgs/bst/BST_AlgorAnalyse.png">
+<meta property="article:published_time" content="2019-11-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-03T05:28:54.449Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/11/07/imgs/bst/BST_Find.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大虾</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">江湖小虾米</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019.11.7 二分搜索树" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/" class="article-date">
+  <time datetime="2019-11-06T16:00:00.000Z" itemprop="datePublished">2019-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二分搜索树
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>使用了每个节点含有两个链接(链表的每个链接只含有一个节点)的二叉查找树实现符号表是计算机科学中比较重要的算法。这篇文章记载了关于BST的递归描述。</p>
+<blockquote>
+<p>二分搜索树(BST)是结合了链表灵活插入和符号表高效查找的一种数据结构。我们可以将二叉树定义为一个空链接，或者是一个有左右两个链接的节点，每个节点还包含了一个健和一个值，健之间也有顺序之分以支持高效的查找。</p>
+</blockquote>
+<p>本文主要包含二分搜索树的基本实现以及算法分析:</p>
+<ul>
+<li>基本实现</li>
+<li>算法分析</li>
+</ul>
+<h2 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h2><p>在二分搜索树的基本实现中，我们以上一章<a href="../../05/2019.11.5%20符号表及二分查找/">有序表</a>的API接口为例，实现基于二叉树的有序表实现。</p>
+<blockquote>
+<p>书中实现的二分搜索树主要使用了递归实现。主要将给定的健和每个节点的健作比较。根据比较结果决定向左或向右走，此时可以将调用想象成一颗向内深入的树。当得到递归的调用结果后可以将它想象成一棵向上爬的树(递归遵从栈的后入先出法则)。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> IBST&lt;IKey, Value&gt;&#123;</span><br><span class="line">    isEmpty(): <span class="built_in">boolean</span>; <span class="comment">// 表元素是否为空</span></span><br><span class="line">    size(): <span class="built_in">number</span>; <span class="comment">// 表中元素数量</span></span><br><span class="line">    Put(key: IKey, value: Value); <span class="comment">// 插入健值对</span></span><br><span class="line">    Get(key: IKey): Value; <span class="comment">// 返回健值对对值</span></span><br><span class="line">    Contains(key: IKey): <span class="built_in">boolean</span>; <span class="comment">// 是否包含某一键所对应对元素</span></span><br><span class="line">    Delete(key: IKey); <span class="comment">// 删除某一健对应对值</span></span><br><span class="line">    min(): IKey; <span class="comment">// 最小的健</span></span><br><span class="line">    max(): IKey; <span class="comment">// 最大的健</span></span><br><span class="line">    floor(Key: IKey): IKey; <span class="comment">// 大小等于key的最大健</span></span><br><span class="line">    celling(Key: IKey): IKey; <span class="comment">// 大小等于key的最小健</span></span><br><span class="line">    Rank(Key: IKey, compare: <span class="built_in">any</span>): <span class="built_in">number</span>; <span class="comment">// Key的排名</span></span><br><span class="line">    Select(rank: <span class="built_in">number</span>): IKey; <span class="comment">// 排名为rank的健</span></span><br><span class="line">    DeleteMax(): <span class="built_in">void</span>; <span class="comment">// 删除最大的健</span></span><br><span class="line">    DeleteMin(): <span class="built_in">void</span>; <span class="comment">// 删除最小的健</span></span><br><span class="line">    Size(low: IKey, high: IKey): <span class="built_in">number</span>; <span class="comment">// 返回low ~ high之间健的数量</span></span><br><span class="line">    Keys(low: IKey, high: IKey): IKey[]; <span class="comment">// 返回表中low ~ high之间的健</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据表示"><a href="#数据表示" class="headerlink" title="数据表示"></a>数据表示</h3><p>BST的数据表示和链表十分相似。每个节点上含有左、右链接，当前树的长度，当前节点的 Key 及 Value。同时对于任意节点。公式永远成立。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.size = x.left.size + x.right.size + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是: 当我们将二叉查找树的所有健投影到一条直线上时，将会得到一条左子树永远出现在当前节点左边，右子树永远出现在当前节点右边的有序健例。</p>
+<h3 id="查找操作"><a href="#查找操作" class="headerlink" title="查找操作"></a>查找操作</h3><blockquote>
+<p>在二叉查找树中查找一个健的递归算法: 如果树是空的，则查找未命中；如果被查找的健和根节点的健相等，查找命中，否则就(递归的)在适当的子树中继续查找。<br><img src="../imgs/bst/BST_Find.png" alt="二叉查找树中的查找命中和未命中"></p>
+</blockquote>
+<p>对于二叉树而言，每次递归相当于遍历一棵子树，递归和二叉树是天然契合的。</p>
+<h3 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h3><blockquote>
+<p>如果树是空的，就返回一个含有该健值对的新节点。当被插入的节点小于当前节点，就继续在当前节点的左子树继续查找。否则就在当前节点的右子树中进行查找。直到碰到一棵为空的树。</p>
+</blockquote>
+<p>插入操作和查找操作类似，不同之处在于插入一个节点后对于子树 size 的更新。但是这个插入方法也会导致一个新的问题，当进行无序插入时，树的高度会逐渐升高(但子树并非完全被填满)，从而极大的影响到整棵树的性能。由此引入了平衡查找树。</p>
+<p><img src="../imgs/bst/BST_Insert.jpg" alt="平衡二叉树与非平衡二叉树"></p>
+<p>同时，在每次插入操作中，递归的同时需要更新当前树的大小。</p>
+<h3 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h3><blockquote>
+<p>如果一棵树中，左子树为空。最小值为该树的根节点。否则为该树的左子树。反之亦然。</p>
+</blockquote>
+<ul>
+<li><p>最小健<br></p>
+</li>
+<li><p>最大健</p>
+</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> min(root: BST_Node) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root.left) <span class="keyword">return</span> root;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.min(root.left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>树的排名及选中方法<blockquote>
+<p>rank 为指定一个节点，求出该节点在整棵树上的健位排名。select 为给定一个排名值，返回该排名对应的节点类型。<br><img src="../imgs/bst/BST_Select.jpg" alt="二叉查找树中的select操作"></p>
+</blockquote>
+</li>
+</ul>
+<p>下面是 select 方法的具体实现：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Select(root: BST_Node, rank: <span class="built_in">number</span>): BST_Node &#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> size = root.left.size;</span><br><span class="line">    <span class="keyword">if</span> (size &gt; rank) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.Select(root.left, rank);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size &lt; rank) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.Select(root.right, rank - size - <span class="number">1</span>); </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设我们需要找到排名为 rank 的健(左子树中正好有 size === rank 个数的子节点)。首先，如果rank比当前左子树的size要小，那么我们递归的在当前、左子树中查找。直到找到 rank 等于当前左子树的 size 值时，说明当前左子树的父节点就是排名为 rank 的节点。否则，我们继续在右子树中进行查找，同时更新 rank 的值为所要查找的节点在右子树中的排名(rank = rank - (left)size - 1)，直到碰到 size === rank 的节点。</p>
+<p>同理，下面是 Rank 方法的具体实现：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Rank(root: BST_Node, key: IKey): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">let</span> c = key.compareTo(root.key);</span><br><span class="line">    <span class="keyword">if</span> (c === <span class="number">-1</span>) </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.Rank(root.left, key);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (c === <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> root.left.size + <span class="keyword">this</span>.Rank(root.right, key) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="keyword">return</span> root.left.size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>与 select 方法不同的是，rank 方法会利用递归的返回值，将查找时深入右子树的那次递归调用的返回值与左子树的 size 相加，并加上父节点的个数1。这样求出位于右子树的节点rank。</p>
+<ul>
+<li><p>删除最小健<br><br>我们要不断深入根节点的左子树中直到遇见一个空链接，然后将指向该节点的链接指向右子树。这样就丢掉了指向当前最小健的链接，从而删除了该节点。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> DeleteMin(root: BST_Node): BST_Node &#123;</span><br><span class="line">    <span class="keyword">if</span> (root.left === <span class="literal">null</span>) <span class="keyword">return</span> root.right;</span><br><span class="line">    root.left = <span class="keyword">this</span>.DeleteMin(root.left); <span class="comment">// 将左子树的链接指向(无左链接)的左子节点的右链接</span></span><br><span class="line">    root.size = x.left.size + x.right.size + <span class="number">1</span>; <span class="comment">// 更新size</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除最大健<br><br>同理，我们不断深入根节点的右子树中直到遇见一个空链接，然后将指向该节点的链接指向其左子树。</p>
+</li>
+<li><p>删除任意元素<br>二叉树的删除节点操作中，需要使用到删除最小健的接口。当我们删除只有一个(右)子节点或者没有子节点的(最小)节点时，可以使用上面的删除操作，但是如果我们删除一个拥有俩个子节点的节点呢。<br></p>
+</li>
+</ul>
+<ol>
+<li>将指向即将被删除的节点的链接保存为 t ;</li>
+<li>将x指向它的后继节点 min(t.right) ;</li>
+<li>将x的右链接指向 DeleteMin(t.right) , 也就是在删除后所有节点仍然都大于 r.key 的子二叉查找树。</li>
+<li>将x的空链接设为t.left.</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Delete(r: BST_Node k: IKey) &#123;</span><br><span class="line">    <span class="keyword">if</span> (r === <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> cmp = k.compareTo(r.key);</span><br><span class="line">    <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) r.left = <span class="keyword">this</span>.delete(x.left, key);</span><br><span class="line">    <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) r.right = <span class="keyword">this</span>.delete(x.right, key);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/// 找到需要删除的元素r</span></span><br><span class="line">        <span class="keyword">if</span> (r.right === <span class="literal">null</span>) <span class="keyword">return</span> x.left;</span><br><span class="line">        <span class="keyword">if</span> (r.left === <span class="literal">null</span>) <span class="keyword">return</span> x.right;</span><br><span class="line">        <span class="keyword">let</span> t = r;</span><br><span class="line">        <span class="comment">/// 执行步骤2、3、4</span></span><br><span class="line">        r = <span class="keyword">this</span>.Min(t.right);</span><br><span class="line">        r.right = <span class="keyword">this</span>.DeleteMin(t.right);</span><br><span class="line">        r.left = t.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/// 更新size</span></span><br><span class="line">    r.size = x.left.size + x.right.size + <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/// 将全新的r节点返回给原r节点的父节点</span></span><br><span class="line">    <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尽管这种方法能够正确地删除一个节点，它的缺点是可能在某些实际应用中产生性能问题。这个问题在于选用后继节点是一个随意的节点，没有考虑到树的对称性。</p>
+<h3 id="范围查找"><a href="#范围查找" class="headerlink" title="范围查找"></a>范围查找</h3><blockquote>
+<p>二叉树的范围查找操作类似二叉树的遍历操作，只不过我们需要一个容器存储范围内的节点，跳过不在范围内的元素。</p>
+</blockquote>
+<p>首先看下二叉树的遍历操作:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> forEach(r: BST_Node): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (r === <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">this</span>.forEach(r.left);</span><br><span class="line">    <span class="built_in">console</span>.log(r.key);</span><br><span class="line">    <span class="keyword">this</span>.forEach(r.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而二叉树的范围操作回在常规的遍历操作上加上一层条件判断:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Keys(low: IKey, high: IKey): BST_Node[] &#123;</span><br><span class="line">    <span class="keyword">let</span> container = <span class="keyword">new</span> <span class="built_in">Array</span>&lt;BST_Node&gt;();</span><br><span class="line">    <span class="keyword">this</span>._keys(<span class="keyword">this</span>.root, container, low, high);</span><br><span class="line">    <span class="keyword">return</span> container;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> _keys(r: BST_Node, container: BST_Node[], low, high): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (x === <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">let</span> clow = low.compareTo(r.key);</span><br><span class="line">    <span class="keyword">let</span> chigh = high.compareTo(r.key);</span><br><span class="line">    <span class="keyword">if</span> (clow &lt; <span class="number">0</span>) <span class="keyword">this</span>._keys(r.left, container, low, high);</span><br><span class="line">    <span class="comment">/// 符合条件的入栈</span></span><br><span class="line">    <span class="keyword">if</span> (clow &lt;= <span class="number">0</span> &amp;&amp; chigh &gt;= <span class="number">0</span>) container.push(r);</span><br><span class="line">    <span class="keyword">if</span> (chigh &gt; <span class="number">0</span>) <span class="keyword">this</span>._keys(r.right, container, low, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二分搜索树的范围操作和遍历操作比较简单。先递归的查找左子树，然后查找根节点，最后查找根节点的右子树。</p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>下面是简单无序表实现的成本总结:<br><img src="../imgs/bst/BST_AlgorAnalyse.png" alt="简单符号表实现的成本总结"></p>
+<p>基于二分查找树的符号表支持高效的 Rank、Select、Delete、Keys 操作。但是非平衡二叉树在某些情况下引起的恶劣操作仍然是不可接受的。由此引入了平衡二叉树，它能保证无论健的插入顺序如何，树的高度都将是总健树的对数。 </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/" data-id="ck9qm430g0000st2u3rfxctek" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/05/2019.11.5%20%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%8F%8A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">符号表及二分查找</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本实现"><span class="toc-number">1.</span> <span class="toc-text">基本实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据表示"><span class="toc-number">1.1.</span> <span class="toc-text">数据表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找操作"><span class="toc-number">1.2.</span> <span class="toc-text">查找操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#插入操作"><span class="toc-number">1.3.</span> <span class="toc-text">插入操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除操作"><span class="toc-number">1.4.</span> <span class="toc-text">删除操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#范围查找"><span class="toc-number">1.5.</span> <span class="toc-text">范围查找</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法分析"><span class="toc-number">2.</span> <span class="toc-text">算法分析</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;lenkacc1210@sina.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
