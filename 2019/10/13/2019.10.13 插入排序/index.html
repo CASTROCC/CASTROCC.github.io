@@ -5,15 +5,15 @@
   
   <title>插入排序 | 大虾</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这几天在看了下算法，重点学习了排序的一些知识点。为了日后还能拾起来。插眼一枚。 插入排序主要包含一下几种排序方式:  选择排序 插入排序 希尔排序  选择排序 首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 —— [算法]  这种">
+  <meta name="description" content="这几天在看了下算法，重点学习了排序的一些知识点。为了日后还能拾起来。插眼一枚。 插入排序主要包含一下几种排序方式:  选择排序 插入排序 希尔排序  选择排序 首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 ——算法  这种算法叫">
 <meta property="og:type" content="article">
 <meta property="og:title" content="插入排序">
 <meta property="og:url" content="http://yoursite.com/2019/10/13/2019.10.13%20%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/">
 <meta property="og:site_name" content="大虾">
-<meta property="og:description" content="这几天在看了下算法，重点学习了排序的一些知识点。为了日后还能拾起来。插眼一枚。 插入排序主要包含一下几种排序方式:  选择排序 插入排序 希尔排序  选择排序 首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 —— [算法]  这种">
+<meta property="og:description" content="这几天在看了下算法，重点学习了排序的一些知识点。为了日后还能拾起来。插眼一枚。 插入排序主要包含一下几种排序方式:  选择排序 插入排序 希尔排序  选择排序 首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 ——算法  这种算法叫">
 <meta property="og:locale" content="cn">
 <meta property="article:published_time" content="2019-10-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-12T05:30:02.419Z">
+<meta property="article:modified_time" content="2020-05-03T06:27:44.944Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="数据结构与算法">
 <meta name="twitter:card" content="summary">
@@ -103,13 +103,13 @@
 <li><strong>希尔排序</strong></li>
 </ul>
 <h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><blockquote>
-<p>首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 ——<a href="https://book.douban.com/subject/19952400" target="_blank" rel="noopener"> [算法]</p>
+<p>首先找到数组中最小的那个元素，其次，将它和数组的第一个元素交换位置(如果第一个元素就是最小元素那么它就和自己交换。)。再次，在剩下的元素中找到最小的元素，将它与数组的第二个元素交换位置。往复下去，直到将整个数组排序。 ——<a href="1">算法</a></p>
 </blockquote>
 <p>这种算法叫做选择排序，因为它在不断地选择剩余元素中的最小者。</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 选择排序</span></span><br><span class="line"><span class="comment"> * @param items </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> sort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">let</span> N = items.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> min = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; N; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (items[min] &gt; items[j]) <span class="comment">// 找出右边的最小元素</span></span><br><span class="line">                min = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.swap(i, min); <span class="comment">// 将最小元素往左移</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><blockquote>
-<p>为了给要插入的元素腾出空间，我们需要将其余所有元素在插入之前都向右移动一位。这种算法叫做插入排序 ——<a href="https://book.douban.com/subject/19952400" target="_blank" rel="noopener">[算法]</p>
+<p>为了给要插入的元素腾出空间，我们需要将其余所有元素在插入之前都向右移动一位。这种算法叫做插入排序 —— <a href="1">算法</a></p>
 </blockquote>
 <p>与选择排序不同都是，插入排序所需的时间取决于输入中元素的初始顺序。对很大且接近有序的数组进行排序会比对随机顺序的数组或逆序数组进行排序要快很多</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 插入排序</span></span><br><span class="line"><span class="comment"> * @param items </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> sort(items: <span class="built_in">number</span>[]): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">let</span> N = items.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i; j &gt; <span class="number">0</span> &amp;&amp; items[j] &lt; items[j - <span class="number">1</span>]; j--) &#123; </span><br><span class="line">            <span class="keyword">this</span>.swap(j, j - <span class="number">1</span>); <span class="comment">/// 交换的是左边已排好序的数组，所以对近似有序数列的速度要快很多(只有不符合排序规则的item才会进行位置交换)</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> items;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

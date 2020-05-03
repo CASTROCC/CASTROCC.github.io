@@ -15,7 +15,7 @@
 <meta property="og:image" content="https://learnopengl-cn.github.io/img/01/08/perspective_frustum.png">
 <meta property="og:image" content="https://learnopengl-cn.github.io/img/01/09/camera_axes.png">
 <meta property="article:published_time" content="2019-10-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-19T07:43:13.078Z">
+<meta property="article:modified_time" content="2020-05-03T06:30:57.296Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="openGL">
 <meta name="twitter:card" content="summary">
@@ -112,7 +112,7 @@
 <li>透视<br><br>  将3D裁剪空间坐标变换为3D标准化设备坐标的过程</li>
 </ul>
 <blockquote>
-<p>之所以将顶点变换到各个不同的空间的原因是有些操作在特定的坐标系统中才有意义且更方便。例如，当需要对物体进行修改的时候，在局部空间中来操作会更说得通；如果要对一个物体做出一个相对于其它物体位置的操作时，在世界坐标系中来做这个才更说得通，等等。如果我们愿意，我们也可以定义一个直接从局部空间变换到裁剪空间的变换矩阵，但那样会失去很多灵活性。——<a href = "https://learnopengl-cn.github.io">[LearnOpenGL]</p>
+<p>之所以将顶点变换到各个不同的空间的原因是有些操作在特定的坐标系统中才有意义且更方便。例如，当需要对物体进行修改的时候，在局部空间中来操作会更说得通；如果要对一个物体做出一个相对于其它物体位置的操作时，在世界坐标系中来做这个才更说得通，等等。如果我们愿意，我们也可以定义一个直接从局部空间变换到裁剪空间的变换矩阵，但那样会失去很多灵活性。 —— <a href="3">LearnOpenGL</a></p>
 </blockquote>
 <h3 id="平截头体"><a href="#平截头体" class="headerlink" title="平截头体"></a>平截头体</h3><ul>
 <li>正射投影矩阵 <br><br>剪裁掉摄像机所在观察箱的 近平面之前的和 远平面之后的所有坐标， 然后使用透视除法将坐标转为标准化坐标， 如果w分量为0则无法原坐标不被标准化） （适用工程 及 建模， 因为模型场景需要真实还原 ）</li>
@@ -155,7 +155,7 @@
 <li>偏航角(Yaw)，绕y轴旋转。</li>
 <li>滚转角(Roll)，绕z轴旋转。</li>
 </ul>
-<p>对于摄像机系统来说，我们只关心俯仰角和偏航角，不讨论滚转角。使用动态欧拉角在进行旋转的时候会造成<a href="https://zh.wikipedia.org/wiki/%E7%92%B0%E6%9E%B6%E9%8E%96%E5%AE%9A" target="_blank" rel="noopener">[万向锁]问题，使用<a href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%85%83%E6%95%B8" target="_blank" rel="noopener">[四元数]进行旋转可以解决万向锁问题。</p>
+<p>对于摄像机系统来说，我们只关心俯仰角和偏航角，不讨论滚转角。使用动态欧拉角在进行旋转的时候会造成<a href="1">万向锁</a>问题，使用<a href="2">四元数</a>进行旋转可以解决万向锁问题。</p>
 <h2 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h2><h3 id="彭氏光照模型"><a href="#彭氏光照模型" class="headerlink" title="彭氏光照模型"></a>彭氏光照模型</h3><ul>
 <li>环境光<br></li>
 <li>漫反射光<br>  即便在黑暗的情况下，物体也会有来自其他光源的，所以物体是不会完全黑暗的</li>
