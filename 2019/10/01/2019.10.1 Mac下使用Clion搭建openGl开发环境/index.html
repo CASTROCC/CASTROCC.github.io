@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>大虾</title>
+  <title>MacOS下使用Clion搭建openGl开发环境 | 大虾</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Document       html, 	body { 		width: 100%; 		height: 100%; 		overflow: hidden; 	}     #h5_rpg {         width: 50%;         height: 80%;     }      #h5_rpg&gt;iframe { 		width: 100%;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大虾">
-<meta property="og:url" content="http://yoursite.com/about/">
+  <meta name="description" content="MacOS 下搭建openGl开发环境，首先需要安装homebrew : 1$ &#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot; 然后，使用homebrew 安装 glew、glfw 库 12$ brew install glew$ brew inst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MacOS下使用Clion搭建openGl开发环境">
+<meta property="og:url" content="http://yoursite.com/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">
 <meta property="og:site_name" content="大虾">
-<meta property="og:description" content="Document       html, 	body { 		width: 100%; 		height: 100%; 		overflow: hidden; 	}     #h5_rpg {         width: 50%;         height: 80%;     }      #h5_rpg&gt;iframe { 		width: 100%;">
+<meta property="og:description" content="MacOS 下搭建openGl开发环境，首先需要安装homebrew : 1$ &#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot; 然后，使用homebrew 安装 glew、glfw 库 12$ brew install glew$ brew inst">
 <meta property="og:locale" content="cn">
-<meta property="article:published_time" content="2020-04-13T14:27:25.509Z">
-<meta property="article:modified_time" content="2020-04-13T14:27:25.509Z">
+<meta property="article:published_time" content="2019-09-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-07T14:38:14.441Z">
 <meta property="article:author" content="sam">
+<meta property="article:tag" content="openGL">
 <meta name="twitter:card" content="summary">
   
   
@@ -70,92 +71,55 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-2019.10.1 Mac下使用Clion搭建openGl开发环境" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/about/" class="article-date">
-  <time datetime="2020-04-13T14:27:25.509Z" itemprop="datePublished">2020-04-13</time>
+    <a href="/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="article-date">
+  <time datetime="2019-09-30T16:00:00.000Z" itemprop="datePublished">2019-10-01</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MacOS下使用Clion搭建openGl开发环境
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<meta name="generator" content="Hexo 4.2.0"></head>
-<style>
-    html,
-	body {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-    #h5_rpg {
-        width: 50%;
-        height: 80%;
-    }
+        <p>MacOS 下搭建openGl开发环境，首先需要安装homebrew :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>然后，使用homebrew 安装 glew、glfw 库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew install glew</span><br><span class="line">$ brew install glfw</span><br></pre></td></tr></table></figure>
 
-    #h5_rpg>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
+<p>接着，配置glad库。打开 <a href="http://glad.dav1d.de" target="_blank" rel="noopener">http://glad.dav1d.de</a>  设置openGl对应的版本为3.3，并将模式(Profile)设置为Core，将生成好的zip包下载解压后，将头文件粘贴至路径 usr/local/include。</p>
+<p>下载完openGl环境所依赖的库之后，我们下载好Clion(可自行破解)，新建一个c++项目，修改文件 CMakeLists.txt 添加头文件依赖 :</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(ALL_H /usr/local/<span class="keyword">include</span>)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;ALL_H&#125;</span>)</span><br></pre></td></tr></table></figure>
+<p>紧接着将 glew、glfw 库链接进工程中：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(GLEW_LINK /usr/local/Cellar/glew/<span class="number">2.1</span>.<span class="number">0</span>/lib/libGLEW.<span class="number">2.1</span>.<span class="number">0</span>.dylib)</span><br><span class="line"><span class="keyword">set</span>(GLFW_LINK /usr/local/Cellar/glfw/<span class="number">3.3</span>/lib/libglfw.<span class="number">3.3</span>.dylib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">link_libraries</span>( <span class="variable">$&#123;OPENGL&#125;</span> <span class="variable">$&#123;GLEW_LINK&#125;</span> <span class="variable">$&#123;GLFW_LINK&#125;</span>)</span><br></pre></td></tr></table></figure>
+<p>我们将之前下载好的glad库中的源文件粘贴到项目中，然后可以将main函数设置为整个项目工程的入口，这样每一个用例都可以以main函数作为调试入口</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(SOURCE_FILES <span class="string">"./libs/glad.c"</span> <span class="string">"main.cpp"</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(learnOpenGL_Clion <span class="variable">$&#123;SOURCE_FILES&#125;</span>)  <span class="comment">#把main.app 作为入口函数</span></span><br></pre></td></tr></table></figure>
+<p>最后，在末尾关联上Xcode对openGL的支持库。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (APPLE)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(learnOpenGL_Clion <span class="string">"-framework OpenGL"</span>)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(learnOpenGL_Clion <span class="string">"-framework GLUT"</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
 
-    #h5_behavior {
-        width: 50%;
-        height: 80%;
-    }
 
-    #h5_behavior>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
-
-    #h5_rpg {
-        width: 50%;
-        height: 80%;
-    }
-
-    #h5_rpg>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
-</style>
-<body>
-    <div id='h5_dungeon'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_dungeon/web-mobile/index.html" ></iframe>
-    </div>
-    
-    <div id='h5_rpg'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_rpg/index.html" ></iframe>
-    </div>
-    
-    <div id='h5_behavior'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_behavior/index.html" ></iframe>
-	</div>
-    
-</body>
-</html>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/about/" data-id="ck8yje85h0000r72u623ecze6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" data-id="ck9wvkw090000gk2u7om99m71" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openGL/" rel="tag">openGL</a></li></ul>
+
     </footer>
   </div>
   
@@ -204,6 +168,25 @@
   </div>
 
     
+<nav id="article-nav">
+  
+    <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          openGL中的3d相关知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/10/2019.8.10%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Hexo诞生记</div>
+    </a>
+  
+</nav>
+
   
 </article>
  

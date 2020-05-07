@@ -5,17 +5,17 @@
   
   <title>openGL中的3d相关知识 | 大虾</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在学习openGLlearn-openGL相关的一些知识，整理了一些3D方面的知识点，以后没事的时候要多看看~ 坐标系统 标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间  局部空间世界空间观察空间lookAt矩阵剪裁空间屏幕空间一个顶点在渲染成屏幕色彩上所经历的所有不同状态">
+  <meta name="description" content="最近在学习openGLlearn-openGL相关的一些知识，整理了一些3D方面的知识点. 坐标系统 标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间  局部空间世界空间观察空间lookAt矩阵剪裁空间屏幕空间一个顶点在渲染成屏幕色彩上所经历的所有不同状态 模型矩阵   本地坐标">
 <meta property="og:type" content="article">
 <meta property="og:title" content="openGL中的3d相关知识">
 <meta property="og:url" content="http://yoursite.com/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">
 <meta property="og:site_name" content="大虾">
-<meta property="og:description" content="最近在学习openGLlearn-openGL相关的一些知识，整理了一些3D方面的知识点，以后没事的时候要多看看~ 坐标系统 标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间  局部空间世界空间观察空间lookAt矩阵剪裁空间屏幕空间一个顶点在渲染成屏幕色彩上所经历的所有不同状态">
+<meta property="og:description" content="最近在学习openGLlearn-openGL相关的一些知识，整理了一些3D方面的知识点. 坐标系统 标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间  局部空间世界空间观察空间lookAt矩阵剪裁空间屏幕空间一个顶点在渲染成屏幕色彩上所经历的所有不同状态 模型矩阵   本地坐标">
 <meta property="og:locale" content="cn">
 <meta property="og:image" content="https://learnopengl-cn.github.io/img/01/08/perspective_frustum.png">
 <meta property="og:image" content="https://learnopengl-cn.github.io/img/01/09/camera_axes.png">
 <meta property="article:published_time" content="2019-10-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-03T06:30:57.296Z">
+<meta property="article:modified_time" content="2020-05-07T14:36:11.881Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="openGL">
 <meta name="twitter:card" content="summary">
@@ -98,7 +98,7 @@
       
         <!-- Table of Contents -->
         
-        <p>最近在学习openGL<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">learn-openGL</a>相关的一些知识，整理了一些3D方面的知识点，以后没事的时候要多看看~</p>
+        <p><b>最近在学习openGL<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">learn-openGL</a>相关的一些知识，整理了一些3D方面的知识点.</b></p>
 <h2 id="坐标系统"><a href="#坐标系统" class="headerlink" title="坐标系统"></a>坐标系统</h2><ul>
 <li><strong>标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间</strong></li>
 </ul>
@@ -198,7 +198,7 @@
 <li><p>聚光 <br><br>类似手电筒, 同时也会存在光的衰减 / 平滑（软化边缘）=&gt; 定义内外两个圆锥，当在内圆锥之外时开始进行边缘软化</p>
 </li>
 </ul>
-<p>着色器非常灵活，仅使用一些3D向量和可配置的变量就能够创造出惊人的图像，于是乎sharder诞生啦~</p>
+<p>着色器非常灵活，仅使用一些3D向量和可配置的变量就能够创造出惊人的图像。</p>
 
       
     </div>
@@ -269,9 +269,9 @@
     </a>
   
   
-    <a href="/2019/08/10/2019.8.10%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Hexo诞生记</div>
+      <div class="article-nav-title">MacOS下使用Clion搭建openGl开发环境</div>
     </a>
   
 </nav>

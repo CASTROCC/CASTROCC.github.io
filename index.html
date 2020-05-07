@@ -70,6 +70,124 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2020.5.7 Mac下使用破解插件无法打开Goland" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/" class="article-date">
+  <time datetime="2020-05-06T16:00:00.000Z" itemprop="datePublished">2020-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/">Mac下无法打开Goland</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>今天使用 Goland 时，发现之前的破解码失效了。遂使用网上的插件教程捣鼓了一通，发现在地址填写错误的情况下，Goland将再也无法打开，无论是卸载重装都不行。后来终于在包内发现了保存地址的文件，去掉后就可以正常打开了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 打开 finder</span><br><span class="line">2. 使用 <span class="built_in">command</span> + <span class="built_in">shift</span> + g </span><br><span class="line">3. 输入路径: /用户/自己的用户名/资源库/Application Support/JetBrains/Goland/goland.vmoptions</span><br><span class="line">4. 右键 goland.vmoptions &gt; 使用文本打开，修改插件路径或去掉最后一句的破解插件路径</span><br></pre></td></tr></table></figure>
+<p>也可以使用bash :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/users/资源库/Application Support/JetBrains/Goland</span><br><span class="line">$ vim goland.vmoptions</span><br></pre></td></tr></table></figure>
+<p>这样Goland就可以正常打开了。 =。=!!!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/" data-id="ck9wrtuq40000b82ufl453k8l" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GO/" rel="tag">GO</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-2019.11.18 红黑树" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/" class="article-date">
+  <time datetime="2019-11-16T16:00:00.000Z" itemprop="datePublished">2019-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h2><p>由于非平衡二叉树在某些情况下引起恶劣操作，所以引入了<b>平衡二叉树</b>。平衡二叉树的目地在于删除或插入操作时，都可以维持树的高度与长度成对数，同时保证树的运行时间维持在对数级。</p>
+<h3 id="2-3查找树"><a href="#2-3查找树" class="headerlink" title="2-3查找树"></a>2-3查找树</h3><blockquote>
+<p>我们将一颗标准的二叉查找树的节点称为2-节点(1个健2个链接)。我们将含有2个健3条链接的节点称为3-节点。3-节点的每条链接中都对应着其中保存的健<b>分割</b>产生的一个<b>区间</b>。</p>
+</blockquote>
+<h4 id="2-3查找树的组成"><a href="#2-3查找树的组成" class="headerlink" title="2-3查找树的组成"></a>2-3查找树的组成</h4><ul>
+<li>2-节点: 含有一个健(及其对应的值)和两条链接，左链接指向的2-3树中的健都小于该节点。右链接指向的2-3树中的健都大于该节点。</li>
+<li>3-节点: 含有两个健和三条链接， 左链接指向树中健都小于该节点。中链接指向的2-3树中的健都位于该节点的两个健之间，右链接指向的2-3中的树都大于该节点。<br>指向一颗空树的链接被称为空链接</li>
+</ul>
+<h4 id="2-3查找树的操作"><a href="#2-3查找树的操作" class="headerlink" title="2-3查找树的操作"></a>2-3查找树的操作</h4><ul>
+<li><p>查找<br><br>与二分搜索树的插入操作类似，2-3查找树的查找首先需要与节点的健作比较，如果比当前健中的最小元素还要小就继续往左子树中查找，如果位于当前两个健之间，则往中子树中进行查找。否则就往右子树中进行查找。</p>
+</li>
+<li><p>插入<br><br>2-3查找树的插入操作比较特别。因为一颗平衡二叉树可能是由2-节点和3-节点共同组成。所以平衡二叉树的插入操作又分为一下几种情况。</p>
+</li>
+</ul>
+<ol>
+<li><p><b>向2-节点中插入新健</b></br><br> 当向一个2-节点中插入新健时，只需要把这个2-节点替换为一个3-节点，然后将要插入健保存在其中即可。<br> <img src="/imgs/bst/2-insert.png" alt="向2-节点中插入新的健"></p>
+</li>
+<li><p><b>向一颗只含有3-节点的树中插入新健</b><br> 在向一颗只含有3-节点的树中插入新健的时候，可以先将树变成一颗4-节点，然后将4-节点转换为一颗含有两个2-节点的二叉查找树。同时也是一颗完美平衡的2-3树。插入前树的高度为0，插入后树的高度为1。<br> <img src="/imgs/bst/3-insert.jpeg" alt="向3-节点中插入新的健"></p>
+</li>
+<li><p><b>向一个父节点为2-节点的3-节点中插入新健</b><br> 假设未命中的树是一颗3-节点，同时该节点的父节点为2-节点。我们需要在维持树的完美平衡的前提下为新健腾出空间。首先我们将3-节点中插入一个新健变成4-节点，然后将其分解为两个2-节点组成的平衡二叉树，将分解后的平衡二叉树的根节点移动至父节点(2-节点)中，将父节点转换为一个3-节点。<br> <img src="/imgs/bst/2-3insert.png" alt="向父节点为2-节点的3-节点中插入新健"></p>
+</li>
+<li><p><b>向一颗父节点为3-节点的3-节点中插入新健</b><br> 将3的情况推广到一般情况，我们就这样一直向上不断分解临时的4-节点。并将中健插入到更高层的父节点中，直到碰到一个父节点为2-节点或者到达根节点。<br> <img src="/imgs/bst/3-3insert.jpeg" alt="向一颗父节点为3-节点的3-节点中插入新健"></p>
+</li>
+<li><p><b>分解根节点</b><br> 在4的情况下，假如我们碰到的节点全是3-节点。此时根节点被强插入后变成了一颗4-节点，此时我们可以将根节点分解为两颗2-节点，然后使树的高度加1。<br> <img src="/imgs/bst/root.png" alt="分解根节点"></p>
+</li>
+</ol>
+<p>将一个4-节点分解为一颗2-3树可能有6中情况。这些变换都是局部的，除了相关的链接节点，其他的链接节点都不需要变换。所有的局部变换都不会影响整棵树都有序性和平衡型。但是在某些情况下，分解根节点会导致树的高度加1。从而影响其子节点到根节点的路径长度。<br><img src="/imgs/bst/split-4.jpeg" alt="在一颗2-3树中分解一个4-结点的情况汇总"></p>
+<p>平衡二叉树在保证树高度为对数的情况下，使每个节点到根节点的长度更短。由此我们在进行任意查找和插入操作时，访问的节点越少。</p>
+<h2 id="红黑二叉查找树"><a href="#红黑二叉查找树" class="headerlink" title="红黑二叉查找树"></a>红黑二叉查找树</h2><p>某种意义上上说，红黑二叉树既是一颗二叉查找树，也是一颗2-3树。使用红黑树的意义在于，既保持了二叉查找树中简洁高效的查找，也保持了2-3节点高效的平衡插入。红黑树的一个重要特征就是为了维持树的平衡，树的右链不能为红链，同时不能出现两红链相连接的情况(出现这种情况通常会将较大的左红链旋转到右链，形成一棵双黑平衡树)。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="ck9wrt0ej0000an2u3auh94vp" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-2019.11.7 二分搜索树" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/" class="article-date">
@@ -615,7 +733,7 @@
       
         <!-- Table of Contents -->
         
-        <p>最近在学习openGL<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">learn-openGL</a>相关的一些知识，整理了一些3D方面的知识点，以后没事的时候要多看看~</p>
+        <p><b>最近在学习openGL<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">learn-openGL</a>相关的一些知识，整理了一些3D方面的知识点.</b></p>
 <h2 id="坐标系统"><a href="#坐标系统" class="headerlink" title="坐标系统"></a>坐标系统</h2><ul>
 <li><strong>标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间</strong></li>
 </ul>
@@ -715,7 +833,7 @@
 <li><p>聚光 <br><br>类似手电筒, 同时也会存在光的衰减 / 平滑（软化边缘）=&gt; 定义内外两个圆锥，当在内圆锥之外时开始进行边缘软化</p>
 </li>
 </ul>
-<p>着色器非常灵活，仅使用一些3D向量和可配置的变量就能够创造出惊人的图像，于是乎sharder诞生啦~</p>
+<p>着色器非常灵活，仅使用一些3D向量和可配置的变量就能够创造出惊人的图像。</p>
 
       
     </div>
@@ -734,10 +852,10 @@
 
 
   
-    <article id="post-2019.8.10 hexo诞生记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2019.10.1 Mac下使用Clion搭建openGl开发环境" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/08/10/2019.8.10%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/" class="article-date">
-  <time datetime="2019-08-09T16:00:00.000Z" itemprop="datePublished">2019-08-10</time>
+    <a href="/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="article-date">
+  <time datetime="2019-09-30T16:00:00.000Z" itemprop="datePublished">2019-10-01</time>
 </a>
     
   </div>
@@ -748,7 +866,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/10/2019.8.10%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/">Hexo诞生记</a>
+      <a class="article-title" href="/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">MacOS下使用Clion搭建openGl开发环境</a>
     </h1>
   
 
@@ -758,121 +876,30 @@
       
         <!-- Table of Contents -->
         
-        <p>最近想要重拾之前写博客<del>学习的习惯，遂逛逛gayhub找找相关的blog框架，于是乎，我的<a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>诞生啦。记录一下hexo诞生过程</del></p>
-<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="创建hexo-cli"><a href="#创建hexo-cli" class="headerlink" title="创建hexo-cli"></a>创建hexo-cli</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm i -g hexo-cli</span><br></pre></td></tr></table></figure>
+        <p>MacOS 下搭建openGl开发环境，首先需要安装homebrew :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>然后，使用homebrew 安装 glew、glfw 库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew install glew</span><br><span class="line">$ brew install glfw</span><br></pre></td></tr></table></figure>
 
-<h3 id="创建属于自己的第一个blog项目"><a href="#创建属于自己的第一个blog项目" class="headerlink" title="创建属于自己的第一个blog项目"></a>创建属于自己的第一个blog项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ./workSpace</span><br><span class="line">$ npx hexo init blog_self</span><br></pre></td></tr></table></figure>
+<p>接着，配置glad库。打开 <a href="http://glad.dav1d.de" target="_blank" rel="noopener">http://glad.dav1d.de</a>  设置openGl对应的版本为3.3，并将模式(Profile)设置为Core，将生成好的zip包下载解压后，将头文件粘贴至路径 usr/local/include。</p>
+<p>下载完openGl环境所依赖的库之后，我们下载好Clion(可自行破解)，新建一个c++项目，修改文件 CMakeLists.txt 添加头文件依赖 :</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(ALL_H /usr/local/<span class="keyword">include</span>)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;ALL_H&#125;</span>)</span><br></pre></td></tr></table></figure>
+<p>紧接着将 glew、glfw 库链接进工程中：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(GLEW_LINK /usr/local/Cellar/glew/<span class="number">2.1</span>.<span class="number">0</span>/lib/libGLEW.<span class="number">2.1</span>.<span class="number">0</span>.dylib)</span><br><span class="line"><span class="keyword">set</span>(GLFW_LINK /usr/local/Cellar/glfw/<span class="number">3.3</span>/lib/libglfw.<span class="number">3.3</span>.dylib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">link_libraries</span>( <span class="variable">$&#123;OPENGL&#125;</span> <span class="variable">$&#123;GLEW_LINK&#125;</span> <span class="variable">$&#123;GLFW_LINK&#125;</span>)</span><br></pre></td></tr></table></figure>
+<p>我们将之前下载好的glad库中的源文件粘贴到项目中，然后可以将main函数设置为整个项目工程的入口，这样每一个用例都可以以main函数作为调试入口</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(SOURCE_FILES <span class="string">"./libs/glad.c"</span> <span class="string">"main.cpp"</span>)</span><br><span class="line"><span class="keyword">add_executable</span>(learnOpenGL_Clion <span class="variable">$&#123;SOURCE_FILES&#125;</span>)  <span class="comment">#把main.app 作为入口函数</span></span><br></pre></td></tr></table></figure>
+<p>最后，在末尾关联上Xcode对openGL的支持库。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (APPLE)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(learnOpenGL_Clion <span class="string">"-framework OpenGL"</span>)</span><br><span class="line">    <span class="keyword">target_link_libraries</span>(learnOpenGL_Clion <span class="string">"-framework GLUT"</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
 
-<h3 id="安装node-modules依赖"><a href="#安装node-modules依赖" class="headerlink" title="安装node_modules依赖"></a>安装node_modules依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-
-<h3 id="撰写自己的第一篇blog"><a href="#撰写自己的第一篇blog" class="headerlink" title="撰写自己的第一篇blog"></a>撰写自己的第一篇blog</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ./<span class="built_in">source</span></span><br><span class="line">$ vim hello-world.md</span><br></pre></td></tr></table></figure>
-
-<h3 id="生成h5静态页面"><a href="#生成h5静态页面" class="headerlink" title="生成h5静态页面"></a>生成h5静态页面</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  hexo generate</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建github-io项目并修改hexo项目配置"><a href="#创建github-io项目并修改hexo项目配置" class="headerlink" title="创建github.io项目并修改hexo项目配置"></a>创建github.io项目并修改hexo项目配置</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy: </span><br><span class="line">    type: git</span><br><span class="line">    repo: &lt;ssh/https地址&gt;</span><br><span class="line">    branch: 根据自己项目的分支地址来填，默认为master分支</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装github部署环境"><a href="#安装github部署环境" class="headerlink" title="安装github部署环境"></a>安装github部署环境</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-
-<h3 id="至此，就可以在自己的github托管页面下看到属于自己的blog啦"><a href="#至此，就可以在自己的github托管页面下看到属于自己的blog啦" class="headerlink" title="至此，就可以在自己的github托管页面下看到属于自己的blog啦~"></a>至此，就可以在自己的github托管页面下看到属于自己的blog啦~</h3><p>更多详情: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">官方文档</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/10/2019.8.10%20hexo%E8%AF%9E%E7%94%9F%E8%AE%B0/" data-id="ck8x4emz50000ev2uahmfa7gn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" data-id="ck9wvkw090000gk2u7om99m71" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-2018.2.1 在ts项目中调用第三方js库的方法及简单理解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/01/2018.2.1%20%E5%9C%A8ts%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9js%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/" class="article-date">
-  <time datetime="2018-01-31T16:00:00.000Z" itemprop="datePublished">2018-02-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/01/2018.2.1%20%E5%9C%A8ts%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9js%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/">在ts项目中调用第三方js库</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p><img src="/imgs/egret/threeParty.jpg" alt="d.ts的理解.jpg"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/01/2018.2.1%20%E5%9C%A8ts%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9js%E5%BA%93%E7%9A%84%E6%96%B9%E6%B3%95%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/" data-id="ck8vrubyd0009gx2u2eynanwi" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ts/" rel="tag">ts</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-2018.3.2 使用new创建动态结构、类型组合与堆的概念" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/" class="article-date">
-  <time datetime="2018-01-10T16:00:00.000Z" itemprop="datePublished">2018-01-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/">使用new创建动态结构、类型组合与堆的概念</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <ul>
-<li>对于使用new动态创建的结构体 : 通常使用-&gt;来代替成员运算符点<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">things</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> goods ;</span><br><span class="line">    <span class="keyword">int</span> bad ;  </span><br><span class="line">&#125; <span class="comment">// 定义一个结构体</span></span><br><span class="line"></span><br><span class="line">things * grubose = <span class="keyword">new</span> things ; <span class="comment">// 动态创建结构体</span></span><br><span class="line">grubose -&gt;goods = <span class="number">3</span> ;</span><br><span class="line">grubose -&gt; bad = <span class="number">5</span> ; <span class="comment">// 通过-&gt;来为结构体赋值</span></span><br><span class="line"><span class="comment">// 也可以这样使用</span></span><br><span class="line">(* grubose).goods = <span class="number">3</span> ; </span><br><span class="line"></span><br><span class="line">(* grubose).bad = <span class="number">5</span>; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 当处理大量自负床的时候 如果这些字符串的最大长度为80个字符</span></span><br><span class="line"><span class="comment">// 使用delete关键词动态创建</span></span><br><span class="line"><span class="keyword">char</span> * name ; <span class="comment">// craete char point </span></span><br><span class="line">name = getname(); </span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; name &lt;&lt; <span class="string">" at "</span> &lt;&lt; (<span class="keyword">int</span> *) name &lt;&lt; <span class="built_in">endl</span> ; <span class="comment">// string_name at block_name( * int -&gt; 强制获取内存地址)</span></span><br><span class="line"><span class="keyword">delete</span> [] name ; <span class="comment">// 内存释放</span></span><br><span class="line">name = getname(); <span class="comment">// 再次调用</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; name &lt;&lt;  <span class="string">"at"</span> &lt;&lt; (<span class="keyword">int</span> *) name  &lt;&lt; <span class="built_in">endl</span> ;</span><br><span class="line"><span class="keyword">delete</span> [] name ; <span class="comment">// 再次释放内存</span></span><br><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">getname</span><span class="params">()</span> <span class="comment">// 返回一个char类型的指针变量</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> temp[<span class="number">80</span>] ;  <span class="comment">// 声明block  </span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Enter last name: "</span> ;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; temp ;</span><br><span class="line">    <span class="keyword">char</span> * pn = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>[temp] + <span class="number">1</span>] ;  <span class="comment">// 之所以要加1是要存储空字符</span></span><br><span class="line">    <span class="built_in">strcpy</span>(pn , temp ); <span class="comment">// 新创建一个char指针变量 并将temp（用户输入）的内容写入pn指向的内存地址中</span></span><br><span class="line">    <span class="keyword">return</span> pn ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>根据内存分配的方式分为：自动存储 静态存储和动态存储 线程存储（C11新增）（储存空间或堆）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">在上面的例子中： </span><br><span class="line"></span><br><span class="line">自动存储（临时变量）:当getname()方法执行完成之后其内部的temp使用的内存将自动被释放 。</span><br><span class="line">如果getName返回temp 那么name指针指向的内存将很快得到重新使用 &#x3D;&gt; </span><br><span class="line">自动储存相当与自动回收局部变量</span><br><span class="line">&#x3D;&gt; 自动储存的变量将以此加入到栈中， 在离开代码块时会按相反的顺序释放这些变量 这</span><br><span class="line">被成灰后进先出原则（LIFO）压入 -&gt; 取出</span><br><span class="line">在程序执行过程中栈将不断的增大或缩小</span><br><span class="line"></span><br><span class="line">静态存储（静态变量）：</span><br><span class="line">整个程序执行期间都存在的存储方式(静态变量)  , 也存储在栈中。使变量成为静态的方式有两种：</span><br><span class="line">1. static 关键字 static double 1.666</span><br><span class="line">2. 在函数外部定义这个变量</span><br><span class="line"></span><br><span class="line">动态存储（通过new 和 delete 操作的变量）：</span><br><span class="line">通过new 和 delete 操作内存池(堆  , 堆与存储临时变量与</span><br><span class="line">静态变量的内存池（栈）是分开的) ， 可以在一个函数中new </span><br><span class="line">也可在另一个函数中进行delete 。所以数据的生命周期完全交给开发者自行决定（也伴随着内存泄露的存在）</span><br></pre></td></tr></table></figure></li>
-<li>类型组合<br>数组 结构 和指针的组合使用<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义一个结构体</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">instert_things</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> year ;</span><br><span class="line">&#125;</span><br><span class="line">instert_things i01 , i02 , i03 ; <span class="comment">// 创建这种类型的变量</span></span><br><span class="line">i01.year = <span class="number">1998</span> ; <span class="comment">// 使用成员运算符访问成员</span></span><br><span class="line"><span class="comment">// 创建instert_things 结构体类型的指针</span></span><br><span class="line">instert_things * instert_p = &amp;i02 ; </span><br><span class="line">instert_p-&gt;year = <span class="number">1999</span> ; <span class="comment">// i02变量的year属性初始化为1999</span></span><br><span class="line"><span class="comment">// 创建instert_things 结构数组</span></span><br><span class="line">instert_p  myArr[<span class="number">3</span>] ; <span class="comment">// 申明一个数组包含3个ip结构体</span></span><br><span class="line">myArr[<span class="number">0</span>].year = <span class="number">2003</span> ; <span class="comment">// myArr[0] is a structures </span></span><br><span class="line">(myArr+<span class="number">1</span>)-&gt;year = <span class="number">2004</span> ; <span class="comment">// myArr[1].year = 2004 </span></span><br><span class="line"><span class="comment">// 创建指针数组</span></span><br><span class="line"><span class="keyword">const</span> inster_p * arrpoint[<span class="number">3</span>] = &#123; &amp;i01 , &amp;i02 , &amp;i03 &#125; ; <span class="comment">// 一个储存三个内存地址的数组</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; arrpoint[<span class="number">1</span>]-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">// 2004</span></span><br><span class="line"><span class="keyword">auto</span> ppb = arrpoint ; <span class="comment">// 此时ppb为指向一个值为内存地址的内存地址</span></span><br><span class="line"><span class="built_in">std</span>:<span class="built_in">cout</span> &lt;&lt; (* ppb)-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">// 引用ppb 2003</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; (*(ppb+<span class="number">1</span>))-&gt;year &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> ; <span class="comment">//  2004</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/11/2018.3.2%20%E4%BD%BF%E7%94%A8new%E5%88%9B%E5%BB%BA%E5%8A%A8%E6%80%81%E7%BB%93%E6%9E%84%E3%80%81%E7%B1%BB%E5%9E%8B%E7%BB%84%E5%90%88%E4%B8%8E%E5%A0%86%E7%9A%84%E6%A6%82%E5%BF%B5/" data-id="ck8vrubya0004gx2u8yaqfeiq" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c/" rel="tag">c++</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openGL/" rel="tag">openGL</a></li></ul>
 
     </footer>
   </div>
@@ -919,7 +946,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title tagcloud">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/HTML5/" style="font-size: 17.67px;">HTML5</a> <a href="/tags/c/" style="font-size: 17.67px;">c++</a> <a href="/tags/js/" style="font-size: 21.33px;">js</a> <a href="/tags/openGL/" style="font-size: 14px;">openGL</a> <a href="/tags/ts/" style="font-size: 14px;">ts</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 25px;">数据结构与算法</a>
+      <a href="/tags/GO/" style="font-size: 14px;">GO</a> <a href="/tags/HTML5/" style="font-size: 17.67px;">HTML5</a> <a href="/tags/c/" style="font-size: 17.67px;">c++</a> <a href="/tags/js/" style="font-size: 21.33px;">js</a> <a href="/tags/openGL/" style="font-size: 17.67px;">openGL</a> <a href="/tags/ts/" style="font-size: 14px;">ts</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" style="font-size: 25px;">数据结构与算法</a>
     </div>
   </div>
 
@@ -929,6 +956,14 @@
     <h3 class="widget-title recent-posts">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/">Mac下无法打开Goland</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/">红黑树</a>
+          </li>
         
           <li>
             <a href="/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/">二分搜索树</a>
@@ -942,14 +977,6 @@
             <a href="/2019/10/16/2019.10.16%20%E5%A0%86%E6%8E%92%E5%BA%8F/">优先队列及堆排序</a>
           </li>
         
-          <li>
-            <a href="/2019/10/15/2019-10-15%20%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/14/2019.10.14%20%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/">归并排序</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -959,7 +986,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -967,7 +994,7 @@
   
     
 <div class="widget-wrap">
-    <h3 class="widget-title">友情链接</h3>
+    <h3 class="widget-title">Links</h3>
     <div class="widget">
         <ul>
             

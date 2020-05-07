@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>大虾</title>
+  <title>Mac下无法打开Goland | 大虾</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Document       html, 	body { 		width: 100%; 		height: 100%; 		overflow: hidden; 	}     #h5_rpg {         width: 50%;         height: 80%;     }      #h5_rpg&gt;iframe { 		width: 100%;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="大虾">
-<meta property="og:url" content="http://yoursite.com/about/">
+  <meta name="description" content="今天使用 Goland 时，发现之前的破解码失效了。遂使用网上的插件教程捣鼓了一通，发现在地址填写错误的情况下，Goland将再也无法打开，无论是卸载重装都不行。后来终于在包内发现了保存地址的文件，去掉后就可以正常打开了。 12341. 打开 finder2. 使用 command + shift + g 3. 输入路径: &#x2F;用户&#x2F;自己的用户名&#x2F;资源库&#x2F;Application Support&#x2F;Je">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac下无法打开Goland">
+<meta property="og:url" content="http://yoursite.com/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/">
 <meta property="og:site_name" content="大虾">
-<meta property="og:description" content="Document       html, 	body { 		width: 100%; 		height: 100%; 		overflow: hidden; 	}     #h5_rpg {         width: 50%;         height: 80%;     }      #h5_rpg&gt;iframe { 		width: 100%;">
+<meta property="og:description" content="今天使用 Goland 时，发现之前的破解码失效了。遂使用网上的插件教程捣鼓了一通，发现在地址填写错误的情况下，Goland将再也无法打开，无论是卸载重装都不行。后来终于在包内发现了保存地址的文件，去掉后就可以正常打开了。 12341. 打开 finder2. 使用 command + shift + g 3. 输入路径: &#x2F;用户&#x2F;自己的用户名&#x2F;资源库&#x2F;Application Support&#x2F;Je">
 <meta property="og:locale" content="cn">
-<meta property="article:published_time" content="2020-04-13T14:27:25.509Z">
-<meta property="article:modified_time" content="2020-04-13T14:27:25.509Z">
+<meta property="article:published_time" content="2020-05-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-07T12:52:56.233Z">
 <meta property="article:author" content="sam">
+<meta property="article:tag" content="GO">
 <meta name="twitter:card" content="summary">
   
   
@@ -70,92 +71,45 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-2020.5.7 Mac下使用破解插件无法打开Goland" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/about/" class="article-date">
-  <time datetime="2020-04-13T14:27:25.509Z" itemprop="datePublished">2020-04-13</time>
+    <a href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/" class="article-date">
+  <time datetime="2020-05-06T16:00:00.000Z" itemprop="datePublished">2020-05-07</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mac下无法打开Goland
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
         <!-- Table of Contents -->
         
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-<meta name="generator" content="Hexo 4.2.0"></head>
-<style>
-    html,
-	body {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-    #h5_rpg {
-        width: 50%;
-        height: 80%;
-    }
+        <p>今天使用 Goland 时，发现之前的破解码失效了。遂使用网上的插件教程捣鼓了一通，发现在地址填写错误的情况下，Goland将再也无法打开，无论是卸载重装都不行。后来终于在包内发现了保存地址的文件，去掉后就可以正常打开了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 打开 finder</span><br><span class="line">2. 使用 <span class="built_in">command</span> + <span class="built_in">shift</span> + g </span><br><span class="line">3. 输入路径: /用户/自己的用户名/资源库/Application Support/JetBrains/Goland/goland.vmoptions</span><br><span class="line">4. 右键 goland.vmoptions &gt; 使用文本打开，修改插件路径或去掉最后一句的破解插件路径</span><br></pre></td></tr></table></figure>
+<p>也可以使用bash :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/users/资源库/Application Support/JetBrains/Goland</span><br><span class="line">$ vim goland.vmoptions</span><br></pre></td></tr></table></figure>
+<p>这样Goland就可以正常打开了。 =。=!!!</p>
 
-    #h5_rpg>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
-
-    #h5_behavior {
-        width: 50%;
-        height: 80%;
-    }
-
-    #h5_behavior>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
-
-    #h5_rpg {
-        width: 50%;
-        height: 80%;
-    }
-
-    #h5_rpg>iframe {
-		width: 100%;
-		height: 100%;
-		border: none;
-		outline: none;
-	}
-</style>
-<body>
-    <div id='h5_dungeon'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_dungeon/web-mobile/index.html" ></iframe>
-    </div>
-    
-    <div id='h5_rpg'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_rpg/index.html" ></iframe>
-    </div>
-    
-    <div id='h5_behavior'>
-        <iframe src="https://castrocc.github.io/castrocc_game_release.github.io/h5_behavior/index.html" ></iframe>
-	</div>
-    
-</body>
-</html>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/about/" data-id="ck8yje85h0000r72u623ecze6" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/" data-id="ck9wrtuq40000b82ufl453k8l" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GO/" rel="tag">GO</a></li></ul>
+
     </footer>
   </div>
   
@@ -204,6 +158,16 @@
   </div>
 
     
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">红黑树</div>
+    </a>
+  
+</nav>
+
   
 </article>
  
