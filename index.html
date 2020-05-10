@@ -256,14 +256,14 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x.size = x.left.size + x.right.size + <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>需要注意的是: 当我们将二叉查找树的所有健投影到一条直线上时，将会得到一条左子树永远出现在当前节点左边，右子树永远出现在当前节点右边的有序健例。</p>
 <h3 id="查找操作"><a href="#查找操作" class="headerlink" title="查找操作"></a>查找操作</h3><blockquote>
-<p>在二叉查找树中查找一个健的递归算法: 如果树是空的，则查找未命中；如果被查找的健和根节点的健相等，查找命中，否则就(递归的)在适当的子树中继续查找。<br><img src="../imgs/bst/BST_Find.png" alt="二叉查找树中的查找命中和未命中"></p>
+<p>在二叉查找树中查找一个健的递归算法: 如果树是空的，则查找未命中；如果被查找的健和根节点的健相等，查找命中，否则就(递归的)在适当的子树中继续查找。<br><img src="/imgs/bst/BST_Find.png" alt="二叉查找树中的查找命中和未命中"></p>
 </blockquote>
 <p>对于二叉树而言，每次递归相当于遍历一棵子树，递归和二叉树是天然契合的。</p>
 <h3 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h3><blockquote>
 <p>如果树是空的，就返回一个含有该健值对的新节点。当被插入的节点小于当前节点，就继续在当前节点的左子树继续查找。否则就在当前节点的右子树中进行查找。直到碰到一棵为空的树。</p>
 </blockquote>
 <p>插入操作和查找操作类似，不同之处在于插入一个节点后对于子树 size 的更新。但是这个插入方法也会导致一个新的问题，当进行无序插入时，树的高度会逐渐升高(但子树并非完全被填满)，从而极大的影响到整棵树的性能。由此引入了平衡查找树。</p>
-<p><img src="../imgs/bst/BST_Insert.jpg" alt="平衡二叉树与非平衡二叉树"></p>
+<p><img src="/imgs/bst/BST_Insert.jpg" alt="平衡二叉树与非平衡二叉树"></p>
 <p>同时，在每次插入操作中，递归的同时需要更新当前树的大小。</p>
 <h3 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h3><blockquote>
 <p>如果一棵树中，左子树为空。最小值为该树的根节点。否则为该树的左子树。反之亦然。</p>
@@ -277,7 +277,7 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> min(root: BST_Node) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!root.left) <span class="keyword">return</span> root;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.min(root.left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>树的排名及选中方法<blockquote>
-<p>rank 为指定一个节点，求出该节点在整棵树上的健位排名。select 为给定一个排名值，返回该排名对应的节点类型。<br><img src="../imgs/bst/BST_Select.jpg" alt="二叉查找树中的select操作"></p>
+<p>rank 为指定一个节点，求出该节点在整棵树上的健位排名。select 为给定一个排名值，返回该排名对应的节点类型。<br><img src="/imgs/bst/BST_Select.jpg" alt="二叉查找树中的select操作"></p>
 </blockquote>
 </li>
 </ul>
@@ -312,7 +312,7 @@
 <p>而二叉树的范围操作回在常规的遍历操作上加上一层条件判断:</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Keys(low: IKey, high: IKey): BST_Node[] &#123;</span><br><span class="line">    <span class="keyword">let</span> container = <span class="keyword">new</span> <span class="built_in">Array</span>&lt;BST_Node&gt;();</span><br><span class="line">    <span class="keyword">this</span>._keys(<span class="keyword">this</span>.root, container, low, high);</span><br><span class="line">    <span class="keyword">return</span> container;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> _keys(r: BST_Node, container: BST_Node[], low, high): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (x === <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">let</span> clow = low.compareTo(r.key);</span><br><span class="line">    <span class="keyword">let</span> chigh = high.compareTo(r.key);</span><br><span class="line">    <span class="keyword">if</span> (clow &lt; <span class="number">0</span>) <span class="keyword">this</span>._keys(r.left, container, low, high);</span><br><span class="line">    <span class="comment">/// 符合条件的入栈</span></span><br><span class="line">    <span class="keyword">if</span> (clow &lt;= <span class="number">0</span> &amp;&amp; chigh &gt;= <span class="number">0</span>) container.push(r);</span><br><span class="line">    <span class="keyword">if</span> (chigh &gt; <span class="number">0</span>) <span class="keyword">this</span>._keys(r.right, container, low, high);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>二分搜索树的范围操作和遍历操作比较简单。先递归的查找左子树，然后查找根节点，最后查找根节点的右子树。</p>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>下面是简单无序表实现的成本总结:<br><img src="../imgs/bst/BST_AlgorAnalyse.png" alt="简单符号表实现的成本总结"></p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>下面是简单无序表实现的成本总结:<br><img src="/imgs/bst/BST_AlgorAnalyse.png" alt="简单符号表实现的成本总结"></p>
 <p>基于二分查找树的符号表支持高效的 Rank、Select、Delete、Keys 操作。但是非平衡二叉树在某些情况下引起的恶劣操作仍然是不可接受的。由此引入了平衡二叉树，它能保证无论健的插入顺序如何，树的高度都将是总健树的对数。 </p>
 
       
@@ -1019,7 +1019,7 @@
   
     
 <div class="widget-wrap">
-    <h3 class="widget-title">Links</h3>
+    <h3 class="widget-title">友情链接</h3>
     <div class="widget">
         <ul>
             
