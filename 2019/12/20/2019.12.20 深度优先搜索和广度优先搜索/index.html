@@ -13,7 +13,7 @@
 <meta property="og:description" content="之前玩过一段时间的EVE，开启自动导航在各星域跳来跳去的时候，发现这不就是大名鼎鼎的BFS最好实践吗。逐渐提起了我重温BFS(广度优先搜索)的兴趣。 为了学习 DFS&#x2F;BFS ，首先需要了解无向图的数据结构。 数据类型通常使用以下三种数据类型作为无向图的数据类型：  邻接矩阵 边的数组 邻接表数组  其中，1 由于使用 v * v 的布尔矩阵，对于大量的数据处理，所需的内存过大。 2 不满足获取相">
 <meta property="og:locale" content="cn">
 <meta property="article:published_time" content="2019-12-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-16T12:28:00.415Z">
+<meta property="article:modified_time" content="2020-05-16T12:45:00.995Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="数据结构与算法">
 <meta name="twitter:card" content="summary">
@@ -106,7 +106,7 @@
 <p>其中，</br><br>1 由于使用 v * v 的布尔矩阵，对于大量的数据处理，所需的内存过大。 </br><br>2 不满足获取相邻顶点的接口实现。 </br><br>3 是一种较为常用的表示无向图的数据类型，使用的是 一个以顶点为索引的列表数组，其中的每个元素都是与该顶点对应的<b>连通分量</b>。</br></p>
 <p>下面是一份无向图数据结构的 api 表</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Graph &#123;</span><br><span class="line">    vert(): <span class="built_in">number</span>; <span class="comment">// 顶点数</span></span><br><span class="line">    edge(): <span class="built_in">number</span>; <span class="comment">// 边数</span></span><br><span class="line">    addEdge(vert_s: <span class="built_in">number</span>, vert_e: <span class="built_in">number</span>): <span class="built_in">void</span>; <span class="comment">// 向图中添加一条边</span></span><br><span class="line">    adj(vert: <span class="built_in">number</span>): <span class="built_in">number</span>[]; <span class="comment">// 和 vert 相邻的所有顶点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为了便于理解，可以将邻接表数组视为一个保存了当前顶点连通分量集合的表结构。设计思想类似<a href="https://www.google.com" target="_blank" rel="noopener">散列表</a>。</p>
+<p>为了便于理解，可以将邻接表数组视为一个保存了当前顶点连通分量集合的表结构，表的 key 代表了当前顶点，数组集合表示所有可以连通到 key 的顶点集合。</p>
 <h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><ul>
 <li>使用 DFS 遍历无向图</li>
 <li>使用 DFS 寻找路径</li>
