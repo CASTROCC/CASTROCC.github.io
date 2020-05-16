@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深度优先搜索和广度优先搜索 | 大虾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前玩过一段时间的EVE，开启自动导航在各星域跳来跳去的时候，发现这不就是大名鼎鼎的BFS最好实践吗。逐渐提起了我重温BFS(广度优先搜索)的兴趣。 为了学习 DFS&#x2F;BFS ，首先需要了解无向图的数据结构。 数据类型通常使用以下三种数据类型作为无向图的数据类型：  邻接矩阵 边的数组 邻接表数组  其中，1 由于使用 v * v 的布尔矩阵，对于大量的数据处理，所需的内存过大。 2 不满足获取相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度优先搜索和广度优先搜索">
+<meta property="og:url" content="http://yoursite.com/2019/12/20/2019.12.20%20%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/">
+<meta property="og:site_name" content="大虾">
+<meta property="og:description" content="之前玩过一段时间的EVE，开启自动导航在各星域跳来跳去的时候，发现这不就是大名鼎鼎的BFS最好实践吗。逐渐提起了我重温BFS(广度优先搜索)的兴趣。 为了学习 DFS&#x2F;BFS ，首先需要了解无向图的数据结构。 数据类型通常使用以下三种数据类型作为无向图的数据类型：  邻接矩阵 边的数组 邻接表数组  其中，1 由于使用 v * v 的布尔矩阵，对于大量的数据处理，所需的内存过大。 2 不满足获取相">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2019-12-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-16T12:28:00.415Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">大虾</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">江湖小虾米</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2019.12.20 深度优先搜索和广度优先搜索" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/20/2019.12.20%20%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" class="article-date">
+  <time datetime="2019-12-19T16:00:00.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深度优先搜索和广度优先搜索
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>之前玩过一段时间的EVE，开启自动导航在各星域跳来跳去的时候，发现这不就是大名鼎鼎的<b>BFS</b>最好实践吗。逐渐提起了我重温BFS(广度优先搜索)的兴趣。</p>
+<p>为了学习 DFS/BFS ，首先需要了解无向图的数据结构。</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>通常使用以下三种数据类型作为无向图的数据类型：</p>
+<ol>
+<li>邻接矩阵</li>
+<li>边的数组</li>
+<li>邻接表数组</li>
+</ol>
+<p>其中，</br><br>1 由于使用 v * v 的布尔矩阵，对于大量的数据处理，所需的内存过大。 </br><br>2 不满足获取相邻顶点的接口实现。 </br><br>3 是一种较为常用的表示无向图的数据类型，使用的是 一个以顶点为索引的列表数组，其中的每个元素都是与该顶点对应的<b>连通分量</b>。</br></p>
+<p>下面是一份无向图数据结构的 api 表</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Graph &#123;</span><br><span class="line">    vert(): <span class="built_in">number</span>; <span class="comment">// 顶点数</span></span><br><span class="line">    edge(): <span class="built_in">number</span>; <span class="comment">// 边数</span></span><br><span class="line">    addEdge(vert_s: <span class="built_in">number</span>, vert_e: <span class="built_in">number</span>): <span class="built_in">void</span>; <span class="comment">// 向图中添加一条边</span></span><br><span class="line">    adj(vert: <span class="built_in">number</span>): <span class="built_in">number</span>[]; <span class="comment">// 和 vert 相邻的所有顶点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了便于理解，可以将邻接表数组视为一个保存了当前顶点连通分量集合的表结构。设计思想类似<a href="https://www.google.com" target="_blank" rel="noopener">散列表</a>。</p>
+<h3 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h3><ul>
+<li>使用 DFS 遍历无向图</li>
+<li>使用 DFS 寻找路径</li>
+</ul>
+<p>首先，我们可以看下如何使用 DFS 遍历无向图</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> _dfs(g: IGraph, vert: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>._count++;</span><br><span class="line">    <span class="keyword">this</span>._marked[vert] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">let</span> c: <span class="built_in">number</span>[] = g.adj(vert);</span><br><span class="line">    <span class="comment">/// 此处使用了递归进行连通分量遍历。递归自带的栈后入先出的属性</span></span><br><span class="line">    c.forEach(<span class="function">(<span class="params">v, i</span>) =&gt;</span> !<span class="keyword">this</span>._marked[v] &amp;&amp; <span class="keyword">this</span>._dfs(g, v));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于栈自带的后入先出法则，而这一条件正好符合深度优先遍历的这一特征。所以可以直接使用递归遍历图上的顶点，而不用使用临时的数据结构保存当前遍历的顶点。同时，我们将当前遍历到的顶点标记为<b>已遍历</b>。这样，当我们下次碰到该节点时便会跳出递归，直到遍历完整个图。</p>
+<p>在使用 DFS 寻找可通行路径时，由于深度优先这一特性。会导致寻找的路径不会是最短路径。但是可以保证一定可以到达终点。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> _getPathByDfs(g: IGraph, vert: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>._marked[vert] = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">let</span> c: <span class="built_in">number</span>[] = g.adj(vert);</span><br><span class="line">    c.forEach(<span class="function">(<span class="params">v, i</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>._marked[v]) &#123;</span><br><span class="line">            <span class="keyword">this</span>._edge[v] = vert;</span><br><span class="line">            <span class="keyword">this</span>._getPathByDfs(g, v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> GetPath(v: <span class="built_in">number</span>): <span class="built_in">number</span>[] &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.hasPathTo(v))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> path = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = v; i != <span class="keyword">this</span>._start; i = <span class="keyword">this</span>._edge[i]) </span><br><span class="line">        path.push(v);</span><br><span class="line"></span><br><span class="line">    path.push(<span class="keyword">this</span>._start);</span><br><span class="line">    <span class="keyword">return</span> path;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上代码，首先我们使用 @_getPathByDfs 这一方法递归遍历所有顶点。当每次遍历到递归函数进入时的节点时(这点与BFS略有不同)，将该节点标记，同时记录下该节点的父节点，并形成对应关系。当遍历完后，使用 @GetPath 方法，从当前需要访问的终点开始，依次寻找该点的父节点，直到找父节点为起点时，路径生成完毕。</p>
+<h3 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h3><ul>
+<li>使用 BFS 遍历无向图</li>
+<li>使用 BFS 寻找最短路径 </li>
+</ul>
+<p>BFS (广度优先搜索)的图遍历与DFS类似，不同之处在于使用 BFS 的图遍历会使用队列作为储存遍历顶点的临时数据结构。当尽可能的遍历完与某一顶点相连通的所有顶点时，将会回到上一层相邻的节点继续遍历。使用 BFS 遍历无向图的优点在于，可以利用其查找到最短路径。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> _bfs(g: IGraph, vert: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> queue: <span class="built_in">number</span>[] = [];</span><br><span class="line">    queue.push(vert);</span><br><span class="line">    <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">        <span class="keyword">let</span> cv = queue.shift();</span><br><span class="line">        <span class="keyword">this</span>._count++;</span><br><span class="line">        <span class="keyword">this</span>._marked[cv] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">let</span> c: <span class="built_in">number</span>[] = g.adj(cv);</span><br><span class="line">        c.forEach( <span class="function"><span class="params">nv</span> =&gt;</span> !<span class="keyword">this</span>._marked[nv] &amp;&amp; queue.push(nv));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上，是一个使用 BFS 遍历的无向图。与 DFS 不同之处在于使用了队列储存所有待遍历的顶点。</p>
+<p>由于 BFS 遵循先入先出的法则，在查找最短路径时，会比较有优势</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> _getPathByBfs(g: IGraph, vert: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> queue: <span class="built_in">number</span>[] = [];</span><br><span class="line">    queue.push(vert);</span><br><span class="line">    <span class="keyword">this</span>._marked[vert] = <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">/// 选取距离起始点最"近"的未访问节点 </span></span><br><span class="line">    <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">        <span class="keyword">let</span> v = queue.shift();</span><br><span class="line">        <span class="keyword">this</span>._count++;</span><br><span class="line">        <span class="keyword">let</span> c: <span class="built_in">number</span>[] = g.adj(v);</span><br><span class="line">        c.forEach(<span class="function"><span class="params">cv</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="keyword">this</span>._marked[cv]) &#123;</span><br><span class="line">                <span class="keyword">this</span>._marked[cv] = <span class="literal">true</span>;</span><br><span class="line">                queue.push(cv);</span><br><span class="line">                <span class="keyword">this</span>._edge[cv] = vert; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们使用 _getPathByBfs 遍历整个图，然后记录下首次遍历到该顶点时，该顶点对应的父顶点。然后，将该定点标记为已遍历。由于每次遍历时，选取的父节点都是离起始点最”近”的那个顶点，所以当我们调用 GetPath 方法时，得到的自然就是距离目标点最短的路径了。</p>
+<p>图的遍历除了可以帮助我们寻找路径之外，还可以帮助我们解决一系列问题，比如: </br></p>
+<ul>
+<li>检测环</li>
+<li>双色问题</li>
+<li>计算连通分量</li>
+<li>生成随机迷宫</li>
+</ul>
+<p>关于利用 DFS 生成随机迷宫的方法，我们后面再说~</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/20/2019.12.20%20%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" data-id="cka9fmuy90000y02u5ho3gwih" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Mac下无法打开Goland
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/17/2019.11.18%20%E7%BA%A2%E9%BB%91%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">红黑树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">1.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DFS"><span class="toc-number">2.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BFS"><span class="toc-number">3.</span> <span class="toc-text">BFS</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2020 sam&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;lenkacc1210@sina.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
