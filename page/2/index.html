@@ -70,6 +70,149 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2019.10.30 openGL中的3d相关知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" class="article-date">
+  <time datetime="2019-10-05T16:00:00.000Z" itemprop="datePublished">2019-10-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">openGL中的3d相关知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p><b>最近在学习openGL<a href="https://learnopengl-cn.github.io/" target="_blank" rel="noopener">learn-openGL</a>相关的一些知识，整理了一些3D方面的知识点.</b></p>
+<h2 id="坐标系统"><a href="#坐标系统" class="headerlink" title="坐标系统"></a>坐标系统</h2><ul>
+<li><strong>标准化设备坐标 （-1, 1); （引擎坐标-&gt; 标准化坐标 -&gt; 屏幕坐标） （标准化坐标转为屏幕坐标位于 视口阶段， 该阶段位于剪裁空间转屏幕空间之间</strong></li>
+</ul>
+<h3 id="局部空间"><a href="#局部空间" class="headerlink" title="局部空间"></a>局部空间</h3><h3 id="世界空间"><a href="#世界空间" class="headerlink" title="世界空间"></a>世界空间</h3><h3 id="观察空间"><a href="#观察空间" class="headerlink" title="观察空间"></a>观察空间</h3><pre><code>lookAt矩阵</code></pre><h3 id="剪裁空间"><a href="#剪裁空间" class="headerlink" title="剪裁空间"></a>剪裁空间</h3><h3 id="屏幕空间"><a href="#屏幕空间" class="headerlink" title="屏幕空间"></a>屏幕空间</h3><pre><code>一个顶点在渲染成屏幕色彩上所经历的所有不同状态</code></pre><ul>
+<li>模型矩阵 <br><br>  本地坐标 转换到 世界坐标</li>
+<li>观察矩阵 <br><br>  世界坐标 转换到 观察坐标</li>
+<li>投影矩阵 <br><br>  观察坐标 转化到 剪裁坐标</li>
+</ul>
+<p>投影矩阵会剪裁掉超出（-1，1）这个范围内的标准化坐标。一旦所有顶点被变换到裁剪空间，最终的操作——透视(Perspective Division)将会执行。</p>
+<ul>
+<li>透视<br><br>  将3D裁剪空间坐标变换为3D标准化设备坐标的过程</li>
+</ul>
+<blockquote>
+<p>之所以将顶点变换到各个不同的空间的原因是有些操作在特定的坐标系统中才有意义且更方便。例如，当需要对物体进行修改的时候，在局部空间中来操作会更说得通；如果要对一个物体做出一个相对于其它物体位置的操作时，在世界坐标系中来做这个才更说得通，等等。如果我们愿意，我们也可以定义一个直接从局部空间变换到裁剪空间的变换矩阵，但那样会失去很多灵活性。 —— <a href="3">LearnOpenGL</a></p>
+</blockquote>
+<h3 id="平截头体"><a href="#平截头体" class="headerlink" title="平截头体"></a>平截头体</h3><ul>
+<li>正射投影矩阵 <br><br>剪裁掉摄像机所在观察箱的 近平面之前的和 远平面之后的所有坐标， 然后使用透视除法将坐标转为标准化坐标， 如果w分量为0则无法原坐标不被标准化） （适用工程 及 建模， 因为模型场景需要真实还原 ）</li>
+</ul>
+<p>使用glm的内部函数创建投影矩阵 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glm::ortho(<span class="number">0.0f</span>, <span class="number">800.0f</span>, <span class="number">0.0f</span>, <span class="number">600.0f</span>, <span class="number">0.1f</span>, <span class="number">100.0f</span>); <span class="comment">// 左右 上下 前后</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>透视投影矩阵 <br><br>  离你越远的物体看起来越小。由于透视，这两条平行线在很远的地方看起来会相交。这正是透视投影想要模仿的效果，它是使用透视投影矩阵来完成的</p>
+<p>  <img src="https://learnopengl-cn.github.io/img/01/08/perspective_frustum.png" alt="透视投影"></p>
+</li>
+</ul>
+<blockquote>
+<p>投影矩阵将给定的平截头体范围映射到裁剪空间，除此之外还修改了每个顶点坐标的w值，从而使得离观察者越远的顶点坐标w分量越大（因为w坐标为被除数， 顶点坐标的每个分量都会除以它的w分量，距离观察者越远（w越大）顶点坐标就会越小）</p>
+</blockquote>
+<p>使用glm的内部函数创建透视投影矩阵 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glm::mat4 proj = glm::perspective(glm::radians(<span class="number">45.0f</span>), (<span class="keyword">float</span>)<span class="built_in">width</span>/(<span class="keyword">float</span>)<span class="built_in">height</span>, <span class="number">0.1f</span>, <span class="number">100.0f</span>); <span class="comment">// 视口 宽高比 近平面 远平面</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="摄像机"><a href="#摄像机" class="headerlink" title="摄像机"></a>摄像机</h2><blockquote>
+<p>OPENGL本身没有摄像机的概念，但是可以将场景中的所有物体沿反方向移动模拟出摄像机的效果。当我们讨论摄像机/观察空间(Camera/View Space)的时候，是在讨论以摄像机的视角作为场景原点时场景中所有模型的顶点坐标。观察矩阵把所有的世界坐标变换为相对于摄像机位置与方向的观察坐标。</p>
+</blockquote>
+<p><img src="https://learnopengl-cn.github.io/img/01/09/camera_axes.png" alt="观察空间"></p>
+<h3 id="定义摄像机"><a href="#定义摄像机" class="headerlink" title="定义摄像机"></a>定义摄像机</h3><p>需要它在世界空间中的位置、观察的方向（与当前世界坐标的的z轴方向相反）、一个指向它右侧的向量以及一个指向它上方的向量 （实际上创建了一个三个单位轴相互垂直的、以摄像机的位置为原点的坐标系。）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glm::vec3 cameraPos = glm::vec3(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">3.0f</span>); <span class="comment">// 在物体的前方</span></span><br></pre></td></tr></table></figure>
+<h3 id="摄像机方向"><a href="#摄像机方向" class="headerlink" title="摄像机方向"></a>摄像机方向</h3><p>实际上指向从它到目标向量的相反方向（蓝色的方向向量大概指向z轴的正方向，与摄像机实际指向的方向是正好相反的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">glm::vec3 cameraDir;</span><br><span class="line">glm::vec3 target = glm::vec3(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>); <span class="comment">// 原点坐标</span></span><br><span class="line">cameraDir = glm::normalize(cameraPos - target); <span class="comment">// 因为此时相机的Z轴与当前原点坐标的z轴方向相反，所以此时应该用相机坐标-原点坐标来表示相机照向原点时的朝向</span></span><br></pre></td></tr></table></figure>
+
+<p>右轴</p>
+<ul>
+<li>两向量叉乘的结果是 生成的向量垂直于两向量，定义一个向上的向量与摄像机指向的方向进行叉乘，即可得到同时垂直于两向量的向量(右向量)<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glm::vec3 up = glm::vec3(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">glm::vec3 cameraRight = glm::normalize(glm::cross(cameraDir * up));   <span class="comment">// glm::cross(vec1, vec2); 叉乘两个向量</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>上轴</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">glm::vec3 cameraUp = glm::cross(cameraDir, cameraRight);</span><br><span class="line">cameraUp = glm::normalize(cameraUp);</span><br></pre></td></tr></table></figure>
+<p>生成摄像机的lookAt矩阵</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">lookAt = &#123;</span><br><span class="line">Rx, Ry, Rz, <span class="number">0</span>,</span><br><span class="line">Ux, Uy, Uz, <span class="number">0</span>,</span><br><span class="line">Dx, Dy, Dz, <span class="number">0</span>,</span><br><span class="line"><span class="number">0</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">1</span></span><br><span class="line">&#125; * &#123;</span><br><span class="line"><span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, -Px,</span><br><span class="line"><span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, -Py,</span><br><span class="line"><span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, -Pz,</span><br><span class="line"><span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>,</span><br><span class="line">&#125; <span class="comment">// R是右向量，U是上向量，D是方向向量P是摄像机位置向量. 位置向量是相反的, 因为我们最终希望把世界系统平移到与我们自身移动的相反方向</span></span><br><span class="line"></span><br><span class="line">glm::mat4 view;</span><br><span class="line">view = lookAt(</span><br><span class="line">cameraPos,  <span class="comment">// 摄像机位置</span></span><br><span class="line">glm::vec3(<span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>), <span class="comment">// 世界原点坐标</span></span><br><span class="line">glm::vec3(<span class="number">0.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span>); <span class="comment">// 向上坐标</span></span><br><span class="line">);  <span class="comment">// 使用glm库自动生成lookAt矩阵（观察空间）</span></span><br></pre></td></tr></table></figure>
+<h3 id="欧拉角"><a href="#欧拉角" class="headerlink" title="欧拉角"></a>欧拉角</h3><ul>
+<li>俯仰角(Pitch)，绕x轴旋转。</li>
+<li>偏航角(Yaw)，绕y轴旋转。</li>
+<li>滚转角(Roll)，绕z轴旋转。</li>
+</ul>
+<p>对于摄像机系统来说，我们只关心俯仰角和偏航角，不讨论滚转角。使用动态欧拉角在进行旋转的时候会造成<a href="1">万向锁</a>问题，使用<a href="2">四元数</a>进行旋转可以解决万向锁问题。</p>
+<h2 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h2><h3 id="彭氏光照模型"><a href="#彭氏光照模型" class="headerlink" title="彭氏光照模型"></a>彭氏光照模型</h3><ul>
+<li>环境光<br></li>
+<li>漫反射光<br>  即便在黑暗的情况下，物体也会有来自其他光源的，所以物体是不会完全黑暗的</li>
+<li>镜面光 <br><br>  物体身上有光泽的的亮点（如金属），镜面反射的颜色相比于物体本身的颜色更倾向与光的颜色</li>
+</ul>
+<p>在片段着色器中混合环境光照</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> ambientStrength = <span class="number">1.0</span> ; <span class="comment">// 常量环境因子</span></span><br><span class="line">vec3  ambient         = anbientStrength * lightColor; <span class="comment">// 环境光照</span></span><br><span class="line"></span><br><span class="line">vec3  result          = ambient * objectColor; <span class="comment">// 结果颜色</span></span><br><span class="line">flagColor             = color;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>漫反射光照模拟光源对物体的方向性影响，物体越是对着光源，光源对该对着的部分影响越大</p>
+</blockquote>
+<p>计算漫反射光照:</p>
+<ol>
+<li>法向量: 一个垂直于顶点表面的向量</li>
+<li>定向光线: 作为光源向量与物体片段位置之差的方向向量。为了计算这个向量，我们需要光的位置向量和片段的位置向量</li>
+</ol>
+<p>在片段着色器中混合漫反射光照</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算法向量(使用叉乘对立方体表面所有的点计算法向量)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// vert</span></span><br><span class="line">fragPos = vec3(mdoel * vec4(aPos, <span class="number">1.0</span>)); <span class="comment">// 基于世界坐标的顶点位置计算所有光照</span></span><br><span class="line">Normal = mat3(transpose(inverse(model))) * aNormal; <span class="comment">// 法线矩阵 * 法线向量 避免非等比缩放造成的法线方向改变</span></span><br><span class="line">gl_Position = perspective * view * vec4(fragPos, <span class="number">1.0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//fragment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 环境光照</span></span><br><span class="line"><span class="keyword">float</span> ambientStrength = <span class="number">1.0</span> ; <span class="comment">// 常量环境因子</span></span><br><span class="line">vec3  ambient         = anbientStrength * lightColor; <span class="comment">// 环境光照</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 漫反射</span></span><br><span class="line">vec3 lightDir = normalize(lightPos - flagPos);</span><br><span class="line">vec3 norm = normalize(Normal);</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span> diff = <span class="built_in">max</span>(dot(norm, lightDir), <span class="number">0</span>);</span><br><span class="line"><span class="keyword">float</span> diffColor = diff * lightColor;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vec3  result          = ambient * (objectColor + diffColor); <span class="comment">// 结果颜色</span></span><br><span class="line">flagColor             = color;</span><br><span class="line"></span><br><span class="line">_______________________________________________________________</span><br><span class="line"></span><br><span class="line"><span class="comment">// 镜面高光 当我们去看光被物体所反射的那个方向的时候， 我们会看到一个高光</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// vert</span></span><br><span class="line">fragPos = vec3(mdoel * vec4(aPos, <span class="number">1.0</span>)); <span class="comment">// 基于世界坐标的顶点位置计算所有光照</span></span><br><span class="line">Normal = mat3(transpose(inverse(model))) * aNormal; <span class="comment">// 法线矩阵 * 法线向量 避免非等比缩放造成的法线方向改变</span></span><br><span class="line">gl_Position = perspective * view * vec4(fragPos, <span class="number">1.0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//fragment</span></span><br><span class="line">uniform vec3 viewPos;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 环境光照</span></span><br><span class="line"><span class="keyword">float</span> ambientStrength = <span class="number">1.0</span> ; <span class="comment">// 常量环境因子</span></span><br><span class="line">vec3  ambient         = anbientStrength * lightColor; <span class="comment">// 环境光照</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 漫反射</span></span><br><span class="line">vec3 lightDir = normalize(lightPos - flagPos);</span><br><span class="line">vec3 norm = normalize(Normal);</span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span> diff = <span class="built_in">max</span>(dot(norm, lightDir), <span class="number">0</span>);</span><br><span class="line"><span class="keyword">float</span> diffColor = diff * lightColor;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 镜面高光</span></span><br><span class="line">vec3 viewDir = normalize(viewPos - fragPos);</span><br><span class="line">vec3 reflectDir = reflect(-lightDir, norm);</span><br><span class="line"><span class="keyword">float</span> specFlag = <span class="number">32</span>; <span class="comment">// 反光度</span></span><br><span class="line"><span class="keyword">float</span> specularStrength = <span class="number">0.5</span>; <span class="comment">// 镜面强度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>( dot(viewDir, reflectDir), <span class="number">0.0</span>), specFlag);</span><br><span class="line">vec3 specular = specularStrength * spec * lightColor;</span><br><span class="line"></span><br><span class="line">vec3  result          = (ambient + specular + diffColor) * objColor; <span class="comment">// 结果颜色</span></span><br><span class="line">flagColor             = color;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="材质"><a href="#材质" class="headerlink" title="材质"></a>材质</h3><blockquote>
+<p>一个物体反射的环境光，漫反射，镜面光颜色。这些东西设定了物体所拥有的颜色</p>
+</blockquote>
+<ul>
+<li><p>光照贴图</p>
+</li>
+<li><p>漫反射贴图<br><br>  一个设定了每个片段中漫反射颜色的纹理图片</p>
+</li>
+<li><p>镜反射贴图<br><br>  想要让物体的某些部分以不同的强度显示镜面高光(如带钢圈的木头))，一个设定了每一个片段的镜面光强度/颜色的纹理贴图。仅在物体的特定区域显示镜面高光。</p>
+</li>
+<li><p>法线/凹凸贴图</p>
+</li>
+<li><p>反射贴图</p>
+</li>
+</ul>
+<h3 id="投光物"><a href="#投光物" class="headerlink" title="投光物"></a>投光物</h3><ul>
+<li><p>平行光 <br><br>  当光源来自于很远的地方时，来自光源的每条光线都会近似于互相平行。（当我们假设光源处于无限远处的模型时，他就被成为定向光（与光源的位置无关 所有光线近乎平行））</p>
+</li>
+<li><p>点光源 <br><br>是处于世界中某一位置的光源，它会朝着所有方向发光，但光线会随着距离逐渐衰减（灯泡或火把）。<br>点光源会有衰减 </p>
+</li>
+<li><p>聚光 <br><br>类似手电筒, 同时也会存在光的衰减 / 平滑（软化边缘）=&gt; 定义内外两个圆锥，当在内圆锥之外时开始进行边缘软化</p>
+</li>
+</ul>
+<p>着色器非常灵活，仅使用一些3D向量和可配置的变量就能够创造出惊人的图像。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/06/2019.10.30%20openGL%E4%B8%AD%E7%9A%843d%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" data-id="ck8wovn8c0000h12u9il1a4p0" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openGL/" rel="tag">openGL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-2019.10.1 Mac下使用Clion搭建openGl开发环境" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/10/01/2019.10.1%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Clion%E6%90%AD%E5%BB%BAopenGl%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="article-date">
@@ -532,54 +675,10 @@
 
 
   
-    <article id="post-2017.7.9 getTimeAgo的简单实现" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/09/2017.7.9%20getTimeAgo%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" class="article-date">
-  <time datetime="2017-07-08T16:00:00.000Z" itemprop="datePublished">2017-07-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/09/2017.7.9%20getTimeAgo%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/">getTimeAgo的简单实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <p>今天刷面试题的时候，正好看到类似题目，较为粗糙的实现方式，能完成基本功能，但是代码太过赘余，先存起来吧，日后再作改进(大佬可以无视刚入行的菜鸡…).</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">getTimeAgo</span>(<span class="params"> time </span>) </span>&#123;</span><br><span class="line">        <span class="comment">//转换time</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="keyword">typeof</span> time !== <span class="string">'number'</span>  )&#123;</span><br><span class="line">            time = <span class="keyword">new</span> <span class="built_in">Date</span>(time).getTime();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获取当前时间戳与time时间戳的差值</span></span><br><span class="line">        <span class="keyword">var</span> disTime = <span class="built_in">Date</span>.now() - time ;</span><br><span class="line">        <span class="comment">//解析时间戳差值</span></span><br><span class="line">        <span class="keyword">var</span> ms = disTime / <span class="number">1</span> ;  <span class="comment">//毫秒</span></span><br><span class="line">        <span class="keyword">var</span> s = disTime / <span class="number">1000</span> ;    <span class="comment">//秒</span></span><br><span class="line">        <span class="keyword">var</span> mm = disTime / <span class="number">1000</span> / <span class="number">60</span> ;  <span class="comment">// 分</span></span><br><span class="line">        <span class="keyword">var</span> h = disTime / <span class="number">1000</span> / <span class="number">60</span> / <span class="number">60</span> ;  <span class="comment">//小时</span></span><br><span class="line">        <span class="keyword">var</span> d = disTime / <span class="number">1000</span> / <span class="number">60</span> / <span class="number">60</span> / <span class="number">24</span> ;  <span class="comment">//天</span></span><br><span class="line">        <span class="keyword">var</span> m = disTime / <span class="number">1000</span> / <span class="number">60</span> / <span class="number">60</span> / <span class="number">24</span> / <span class="number">30</span> ;  <span class="comment">//月</span></span><br><span class="line">        <span class="keyword">var</span> y = disTime / <span class="number">1000</span> / <span class="number">60</span> / <span class="number">60</span> / <span class="number">24</span> / <span class="number">30</span> / <span class="number">12</span> ;  <span class="comment">//年</span></span><br><span class="line">        <span class="keyword">if</span>( y &gt; <span class="number">1</span> )&#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="built_in">Math</span>.round(y) + <span class="string">'年前'</span> );</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( m &gt; <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="built_in">Math</span>.round(m) + <span class="string">'月前'</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( d &gt; <span class="number">1</span> )&#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="built_in">Math</span>.round(d) + <span class="string">'天前'</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>( h &gt; <span class="number">1</span> )&#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="built_in">Math</span>.round(h) + <span class="string">'小时前'</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> ( mm &gt; <span class="number">1</span> )&#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="built_in">Math</span>.round(mm) + <span class="string">'分钟前'</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log( <span class="string">'刚刚'</span> );</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">    getTimeAgo(<span class="string">'2016,1,1'</span>);  <span class="comment">//两年前`</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/09/2017.7.9%20getTimeAgo%E7%9A%84%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0/" data-id="ck8vrubyc0007gx2u2ccn6pj2" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页&amp;raquo;</a>
   </nav>
 </section>
            
@@ -602,6 +701,10 @@
       <ul>
         
           <li>
+            <a href="/2020/05/18/2020.5.18%20creator%20%E4%B8%AD%E6%91%84%E5%83%8F%E6%9C%BA%E7%9A%84%20clearFlags%20%E8%AF%A6%E8%A7%A3/">creator 中摄像机的 clearFlags 详解</a>
+          </li>
+        
+          <li>
             <a href="/2020/05/07/2020.5.7%20Mac%E4%B8%8B%E4%BD%BF%E7%94%A8%E7%A0%B4%E8%A7%A3%E6%8F%92%E4%BB%B6%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80Goland/">Mac下无法打开Goland</a>
           </li>
         
@@ -615,10 +718,6 @@
         
           <li>
             <a href="/2019/11/07/2019.11.7%20%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91/">二分搜索树</a>
-          </li>
-        
-          <li>
-            <a href="/2019/11/05/2019.11.5%20%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%8F%8A%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">符号表及二分查找</a>
           </li>
         
       </ul>
