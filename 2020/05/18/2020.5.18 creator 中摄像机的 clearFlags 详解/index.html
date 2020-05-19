@@ -13,7 +13,7 @@
 <meta property="og:description" content="今天在使用 creator，加入多个摄像头时，发现了一个有趣的问题。当我们使用 2 个摄像机(主摄像机、3d 摄像机)分别渲染场景的 UI 及 Core 部分时，如果勾选了主摄像机 clearFlags 的 Color 属性时，我们的 Core 节点将无法渲染出来。为了一探究竟，我们先来分别看看 Creator 的 Camera 组件分别包含哪些可设置的参数。  Depth cullingMask">
 <meta property="og:locale" content="cn">
 <meta property="article:published_time" content="2020-05-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-18T15:18:37.362Z">
+<meta property="article:modified_time" content="2020-05-19T02:51:32.186Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="游戏引擎">
 <meta name="twitter:card" content="summary">
@@ -106,7 +106,7 @@
 <blockquote>
 <p>摄像机深度，用于决定摄像机的渲染顺序。</p>
 </blockquote>
-<p>顾名思义，这个参数可以设置摄像机的先后渲染顺序。值越小，渲染优先级越高。所以，我们可以想象一下，类似<a href="">画家算法</a>中描述的那样，如果越晚渲染，被渲染的节点位于 GL 中的渲染层级则会越高。</p>
+<p>顾名思义，这个参数可以设置摄像机的先后渲染顺序。值越小，渲染优先级越高。所以，我们可以想象一下，类似<a href="https://www.bilibili.com/video/av795071734/" target="_blank" rel="noopener">画家算法</a>中描述的那样，如果越晚渲染，被渲染的节点位于 GL 中的渲染层级则会越高。</p>
 <p>理解了这一点，我们就可以将 UI 层的渲染优先级设置为最低，使它位于整个渲染层级的最顶部。反之，将战斗场景可以设置为较底层。</p>
 <p>cullingMask 官方释意为</p>
 <blockquote>
@@ -120,7 +120,7 @@
 <li>Stencil 清除模版缓冲区</li>
 </ul>
 <p>现在，我们回到初始问题 “为什么主摄像机勾选了 Color 后归属战斗场景分组的节点将无法被渲染出来”</p>
-<p>我们上面提到了，为了使 UI 分组位于整个 Canvas 幕布的顶端，我将渲染主摄像机的渲染优先级调整至最低。这样，当主摄像机最后绘制的时候，会将3D摄像机的场景当作背景颜色清除掉。所以会导致整个3D场景无法正常渲染。</p>
+<p>我们上面提到了，为了使 UI 分组位于整个 Canvas 幕布的顶端，我将渲染主摄像机的渲染优先级调整至最低。这样，当主摄像机最后绘制的时候，会将3D摄像机的场景渲染颜色使用默认的填充色清除掉。所以会导致整个3D场景无法正常渲染。</p>
 <blockquote>
 <p>缓冲区通常是指，在内存中预留指定大小的储存空间来应对 I/O 的数据做临时储存。</p>
 </blockquote>
@@ -133,7 +133,13 @@
 <li>gl.clearDepth</li>
 <li>gl.clearStencil</li>
 </ol>
-<p>其中，WebGLRenderingContext.getParameter 接受一个 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Types" target="_blank" rel="noopener">GLenum</a> 来获取运行时的值。 </br>WebGLRenderingContext.clearColor() 用于设置清空颜色缓冲时的颜色值，可以理解为设置 openGL 的默认填充颜色。  </br>WebGLRenderingContext.clearDepth() 用于设置深度缓冲区深度清除值，设置的值为 openGl 所能渲染的最大深度。 在进行深度测试中，大于深度缓存初始值的多边形都不会被绘制。</br>WebGLRenderingContext.clearStencil()方法为模板缓冲区指定清除值，关于模版缓冲区的介绍可以参考<a href="https://www.cnblogs.com/aokman/archive/2010/12/13/1904723.html" target="_blank" rel="noopener">这篇文章</a>。<br>随后在调用 WebGLRenderingContext.clear() 时会使用这些设置好的参数。</p>
+<p>其中，WebGLRenderingContext.getParameter 接受一个 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Types" target="_blank" rel="noopener">GLenum</a> 来获取运行时的值。 </br>WebGLRenderingContext.clearColor 用于设置清空颜色缓冲时的颜色值，可以理解为设置 openGL 的默认填充颜色。  </br>WebGLRenderingContext.clearDepth 用于设置深度缓冲区深度清除值，设置的值为 openGl 所能渲染的最大深度。 在进行深度测试中，大于深度缓存初始值的多边形都不会被绘制。</br>WebGLRenderingContext.clearStencil 方法为模板缓冲区指定清除值，关于模版缓冲区的介绍可以参考<a href="https://www.cnblogs.com/aokman/archive/2010/12/13/1904723.html" target="_blank" rel="noopener">这篇文章</a>。<br>随后在调用 WebGLRenderingContext.clear 时会使用这些设置好的参数。</p>
+<p>当我们勾选摄像机 Color 属性时，会将前一个摄像机写入好的颜色缓冲使用默认颜色清除，通常只需要将最先渲染的摄像机勾选上 Color 属性。<br>勾选 Depth 属性时，按照原 openGL 的解释，会将距离摄像机最近元素遮挡的元素清除。但是在 creator 中，未勾选 Depth 也没有出现层级冲突，建议默认勾选上。 Stencil 也一样，在未勾选 Stencil 的情况下，也未出现预想的移动拖尾。剩下两个参数的使用还有待求证。</p>
+<p>关于 Rect，官方给出的解释是</p>
+<blockquote>
+<p>决定摄像机绘制在屏幕上哪个位置，值为(0 ~ 1)</p>
+</blockquote>
+<p>当我尝试设置主摄像机的 Rect 参数时，发现渲染位置出现了不同程度的变换。所以推测，Rect 参数值可能会影响着 <a href="https://www.cnblogs.com/luguoshuai/p/9086801.html" target="_blank" rel="noopener">uv</a>。同时需要注意的是 Rect 参数的起始点坐标位于屏幕左下角。<br>Rect 参数应该是新版本加入的参数，具体是否影响到 uv 还有待求证，挖个坑先~</p>
 
       
     </div>
