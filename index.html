@@ -138,7 +138,7 @@
 <blockquote>
 <p>决定摄像机绘制在屏幕上哪个位置，值为(0 ~ 1)</p>
 </blockquote>
-<p>当我尝试设置主摄像机的 Rect 参数时，发现渲染位置出现了不同程度的变换。所以推测，Rect 参数值可能会影响着 <a href="https://www.cnblogs.com/luguoshuai/p/9086801.html" target="_blank" rel="noopener">uv</a>。同时需要注意的是 Rect 参数的起始点坐标位于屏幕左下角。<br>Rect 应该是新版本加入的参数，具体是否影响到 uv 还有待求证，挖个坑先~</p>
+<p>当我尝试设置主摄像机的 Rect 参数时，发现渲染位置出现了不同程度的变换，当前摄像机渲染分组内的元素被按 Rect 比例进行了缩放。 同时需要注意的是 Rect 参数的原点坐标位于屏幕左下角。</p>
 
       
     </div>
